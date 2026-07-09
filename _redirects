@@ -1,0 +1,5 @@
+# APK Redirects to GitHub Releases
+
+/download/results-system https://github.com/Siwitisoftware/results-system/releases/latest/download/results-system.apk 302
+
+/download/financial-system https://github.com/Siwitisoftware/financial-sysrem/releases/latest/download/financial-system.apk 302
