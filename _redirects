@@ -1,4 +1,15 @@
-# APK Redirects to GitHub Releases
+# =========================================================
+# RESULTS SYSTEM
+# =========================================================
+
+/results              /results/index.html          200
+/results/             /results/index.html          200
+/results/*            /results/index.html          200
+
+
+# =========================================================
+# APK DOWNLOADS
+# =========================================================
 
 /download/results-system https://github.com/Siwitisoftware/results-system/releases/latest/download/results-system.apk 302
 
