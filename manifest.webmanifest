@@ -1,10 +1,65 @@
 {
-"name":"Siwiti Software",
-"short_name":"Siwiti Software",
-"start_url":"/",
-"scope":"/",
-"display":"standalone",
-"background_color":"#ffffff",
-"theme_color":"#0B57D0",
-"icons":[{"src":"favicon.png","sizes":"512x512","type":"image/png"}]
+  "id": "/",
+  "name": "Siwiti Software",
+  "short_name": "Siwiti Software",
+  "description": "Modern software solutions, educational systems, downloads and AI services by Siwiti Software.",
+  "lang": "en",
+  "dir": "ltr",
+
+  "start_url": "/",
+  "scope": "/",
+
+  "display": "standalone",
+  "display_override": [
+    "standalone",
+    "window-controls-overlay"
+  ],
+
+  "orientation": "portrait-primary",
+
+  "background_color": "#ffffff",
+  "theme_color": "#0B57D0",
+
+  "categories": [
+    "education",
+    "business",
+    "productivity",
+    "utilities"
+  ],
+
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+
+  "shortcuts": [
+    {
+      "name": "Results System",
+      "short_name": "Results",
+      "description": "Open Results System",
+      "url": "/results-system"
+    },
+    {
+      "name": "Downloads",
+      "short_name": "Downloads",
+      "description": "Download Applications",
+      "url": "/download"
+    },
+    {
+      "name": "Primary Notes",
+      "short_name": "Notes",
+      "description": "Primary School Notes",
+      "url": "/primary-notes"
+    },
+    {
+      "name": "Siwiti AI",
+      "short_name": "AI",
+      "description": "Open Siwiti AI Assistant",
+      "url": "/ai"
+    }
+  ]
 }
