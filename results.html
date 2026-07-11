@@ -13,6 +13,10 @@
   <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
   <meta name="theme-color" content="#000000">
 
+  <link rel="manifest" href="/results.webmanifest">
+<meta name="theme-color" content="#0B57D0">
+<meta name="application-name" content="Results System">
+
   <!-- Notiflix -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notiflix@3.2.6/dist/notiflix-3.2.6.min.css">
   <!-- Notiflix -->
@@ -23744,6 +23748,13 @@ function withButtonLoading(button, asyncFunction) {
     }
   };
 }
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/results-sw.js');
+}
+
+
+    
   </script>
 </body>
 </html>
