@@ -1,0 +1,1 @@
+Copy results folder into repository and replace results/index.html with your current results.html content.
