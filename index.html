@@ -228,6 +228,12 @@
 <meta name="pragma" content="public">
 <meta name="cache-control" content="public, max-age=86400">
 
+
+
+<!-- Weka ndani ya <head> -->
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#0b57d0">
+
 <!-- =========================================================
      PRECONNECT & PRELOAD FOR PERFORMANCE
 ========================================================= -->
@@ -10986,7 +10992,7 @@ Link copied successfully.
 // ============================================================
 // CONFIGURATION - Replace with your Google Apps Script URL
 // ============================================================
-var GOOGLE_SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+var GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw6NpRUiFY2c7DfO2f6_UIjREwwuPf9Or3zY7ZocSbEopdRVh44dIDUuTi3xzMR_oIvZA/exec';
 
 
 // ============================================================
@@ -12458,6 +12464,11 @@ document.addEventListener('DOMContentLoaded', function() {
     initPageFromHash();
 });
 
+
+
+if('serviceWorker' in navigator){
+ navigator.serviceWorker.register('/service-worker.js');
+}
 
 </script>
 
