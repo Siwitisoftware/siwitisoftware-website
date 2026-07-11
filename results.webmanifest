@@ -1,0 +1,20 @@
+{
+  "id": "/results",
+  "name": "Results System",
+  "short_name": "Results",
+  "description": "Results System by Siwiti Software.",
+  "start_url": "/results",
+  "scope": "/results",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#ffffff",
+  "theme_color": "#0B57D0",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
