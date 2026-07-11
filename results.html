@@ -13,9 +13,16 @@
   <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
   <meta name="theme-color" content="#000000">
 
-  <link rel="manifest" href="/results.webmanifest">
+  <link rel="manifest" href="/results/manifest.webmanifest">
+
 <meta name="theme-color" content="#0B57D0">
 <meta name="application-name" content="Results System">
+<meta name="apple-mobile-web-app-title" content="Results System">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+<link rel="icon" href="/favicon.png">
 
   <!-- Notiflix -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notiflix@3.2.6/dist/notiflix-3.2.6.min.css">
@@ -23749,8 +23756,13 @@ function withButtonLoading(button, asyncFunction) {
   };
 }
 
+
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/results-sw.js');
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/results/service-worker.js')
+      .then(reg => console.log('Results SW registered', reg))
+      .catch(err => console.error('SW registration failed', err));
+  });
 }
 
 
