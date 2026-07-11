@@ -1,0 +1,1 @@
+Enterprise PWA upgrade applied: manifest, service worker and offline page added.
