@@ -18,6 +18,40 @@
             --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             --radius: 10px;
             --transition: all 0.3s ease;
+            --grad-0: #16305c;
+            --grad-1: #1e3c72;
+            --grad-2: #2a5298;
+        }
+
+        /* Modern theme presets - only recolor primary/secondary/accent and
+           the background gradient stops, keeping --primary-color dark
+           enough to stay readable as text everywhere it's already used
+           across the app (headings, labels, etc). */
+        html[data-theme="emerald"] {
+            --primary-color: #0f3d2e;
+            --secondary-color: #16a085;
+            --accent-color: #2ecc71;
+            --grad-0: #062e22;
+            --grad-1: #0e4d3c;
+            --grad-2: #16a085;
+        }
+
+        html[data-theme="purple"] {
+            --primary-color: #3b1f5c;
+            --secondary-color: #8e44ad;
+            --accent-color: #a569bd;
+            --grad-0: #2c1250;
+            --grad-1: #4a1f7a;
+            --grad-2: #7d3cae;
+        }
+
+        html[data-theme="sunset"] {
+            --primary-color: #5c2036;
+            --secondary-color: #e67e22;
+            --accent-color: #e74c3c;
+            --grad-0: #4a1942;
+            --grad-1: #a13d63;
+            --grad-2: #e8804f;
         }
 
         * {
@@ -28,7 +62,7 @@
         }
 
         body {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            background: linear-gradient(135deg, var(--grad-1) 0%, var(--grad-2) 100%);
             min-height: 100vh;
             overflow-x: hidden;
         }
@@ -260,25 +294,136 @@
             gap: 10px;
         }
 
-        /* Login/Register Styles */
+        /* Login/Register/Forgot Password Styles - modern full-screen split layout */
         .auth-container {
+            position: relative;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            align-items: stretch;
+            width: 100%;
             min-height: 100vh;
-            padding: 20px;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100dvh;
+            background: #ffffff;
+            overflow: hidden;
+        }
+
+        /* Left branding panel - full height, edge to edge. Hidden on
+           small screens so the form itself becomes the full-screen view. */
+        .auth-brand {
+            display: none;
+            position: relative;
+            flex: 1 1 45%;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 60px 70px;
+            color: #fff;
+            background: linear-gradient(150deg, var(--grad-0) 0%, var(--grad-1) 45%, var(--grad-2) 100%);
+            overflow: hidden;
+        }
+
+        .auth-brand::before,
+        .auth-brand::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            pointer-events: none;
+        }
+
+        .auth-brand::before {
+            width: 420px;
+            height: 420px;
+            top: -140px;
+            right: -160px;
+        }
+
+        .auth-brand::after {
+            width: 280px;
+            height: 280px;
+            bottom: -120px;
+            left: -100px;
+            background: rgba(26, 188, 156, 0.15);
+        }
+
+        .auth-brand-content {
+            position: relative;
+            z-index: 1;
+            max-width: 420px;
+        }
+
+        .auth-brand-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .auth-brand-content h1 {
+            font-size: 32px;
+            font-weight: 700;
+            line-height: 1.25;
+            margin-bottom: 16px;
+        }
+
+        .auth-brand-content > p {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            margin-bottom: 36px;
+        }
+
+        .auth-features {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .auth-features li {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.92);
+        }
+
+        .auth-features li i {
+            width: 32px;
+            height: 32px;
+            flex-shrink: 0;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.14);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1abc9c;
+            font-size: 14px;
+        }
+
+        /* Right (or only, on mobile) panel - the actual full-screen form */
+        .auth-form-panel {
+            flex: 1 1 55%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            min-height: 100vh;
+            min-height: 100dvh;
+            padding: 32px 24px;
+            background: #ffffff;
+            overflow-y: auto;
         }
 
         .auth-card {
-            background: rgba(255, 255, 255, 0.98);
-            border-radius: var(--radius);
-            padding: 40px;
             width: 100%;
-            max-width: 400px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 380px;
+            margin: auto;
         }
 
         .auth-logo {
@@ -287,21 +432,382 @@
         }
 
         .auth-logo-icon {
-            font-size: 48px;
-            color: var(--accent-color);
-            margin-bottom: 15px;
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 18px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #1abc9c 0%, #16a085 100%);
+            color: #fff;
+            font-size: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(26, 188, 156, 0.35);
         }
 
         .auth-logo h2 {
             color: var(--primary-color);
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 700;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
         }
 
         .auth-logo p {
-            color: #666;
+            color: #8a94a6;
             font-size: 14px;
+        }
+
+        /* Modern input/button treatment, scoped to the auth screens only
+           so the rest of the app's forms/buttons are unaffected. */
+        .auth-container .form-control {
+            border-radius: 12px;
+            border-color: #e6e9ef;
+            background: #f7f8fa;
+        }
+
+        .auth-container .form-control:focus {
+            box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.12);
+        }
+
+        .auth-container .btn {
+            border-radius: 12px;
+            letter-spacing: 0.2px;
+        }
+
+        .auth-container .btn-primary {
+            background: linear-gradient(135deg, #3498db 0%, #2a5298 100%);
+            box-shadow: 0 10px 20px rgba(52, 152, 219, 0.25);
+        }
+
+        .auth-container .btn-success {
+            background: linear-gradient(135deg, #27ae60 0%, #219955 100%);
+            box-shadow: 0 10px 20px rgba(39, 174, 96, 0.25);
+        }
+
+        .auth-container .btn-accent {
+            background: linear-gradient(135deg, #1abc9c 0%, #16a085 100%);
+            box-shadow: 0 10px 20px rgba(26, 188, 156, 0.25);
+        }
+
+        @media (min-width: 900px) {
+            .auth-brand {
+                display: flex;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .auth-form-panel {
+                padding: 28px 20px;
+            }
+        }
+
+        /* Language + theme quick-settings widget (auth screens) */
+        .auth-quick-settings {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .lang-switch {
+            display: flex;
+            background: #f1f2f6;
+            border-radius: 20px;
+            padding: 3px;
+            gap: 2px;
+        }
+
+        .lang-btn {
+            border: none;
+            background: transparent;
+            padding: 5px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            color: #8a94a6;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .lang-btn.active {
+            background: #fff;
+            color: var(--primary-color);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+        }
+
+        .theme-switch {
+            display: flex;
+            gap: 8px;
+            background: #f1f2f6;
+            border-radius: 20px;
+            padding: 6px 8px;
+        }
+
+        .theme-swatch {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 0 1px #e0e0e0;
+            cursor: pointer;
+            padding: 0;
+            transition: var(--transition);
+        }
+
+        .theme-swatch.active {
+            box-shadow: 0 0 0 2px var(--primary-color);
+            transform: scale(1.1);
+        }
+
+        .theme-swatch[data-theme="royal"] { background: linear-gradient(135deg, #1e3c72, #2a5298); }
+        .theme-swatch[data-theme="emerald"] { background: linear-gradient(135deg, #0e4d3c, #16a085); }
+        .theme-swatch[data-theme="purple"] { background: linear-gradient(135deg, #4a1f7a, #7d3cae); }
+        .theme-swatch[data-theme="sunset"] { background: linear-gradient(135deg, #7a2048, #e67e22); }
+
+        @media (max-width: 480px) {
+            .auth-quick-settings {
+                top: 12px;
+                right: 12px;
+                gap: 8px;
+            }
+            .theme-switch {
+                padding: 5px 6px;
+                gap: 6px;
+            }
+        }
+
+        /* Language + theme controls inside Settings (in-app, post-login) */
+        .settings-lang-theme-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 28px;
+        }
+
+        .settings-lang-theme-item label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 13px;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .theme-dropdown-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 20px;
+            padding: 9px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #2c3e50;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .theme-dropdown-btn:hover {
+            background: #f1f2f6;
+        }
+
+        .theme-dropdown-btn i.fa-palette {
+            color: var(--accent-color);
+        }
+
+        .theme-dropdown-btn i.fa-chevron-down {
+            font-size: 10px;
+            transition: transform 0.2s ease;
+        }
+
+        .theme-dropdown-btn.open i.fa-chevron-down {
+            transform: rotate(180deg);
+        }
+
+        .theme-swatch-panel {
+            display: none;
+            margin-top: 10px;
+            align-items: center;
+            gap: 10px;
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 14px;
+            padding: 12px 14px;
+            width: fit-content;
+        }
+
+        .theme-swatch-panel.open {
+            display: flex;
+        }
+
+        .theme-swatch-panel .theme-swatch {
+            width: 26px;
+            height: 26px;
+        }
+
+        /* Password strength meter (Register screen) */
+        .password-strength {
+            margin-top: 10px;
+        }
+
+        .password-strength-bar {
+            display: flex;
+            gap: 4px;
+            height: 5px;
+            margin-bottom: 6px;
+        }
+
+        .password-strength-bar span {
+            flex: 1;
+            border-radius: 3px;
+            background: #e6e9ef;
+            transition: background 0.25s ease;
+        }
+
+        .password-strength-text {
+            font-size: 12.5px;
+            font-weight: 600;
+        }
+
+        .password-strength.strength-weak .password-strength-bar span:nth-child(1) { background: #e74c3c; }
+        .password-strength.strength-weak .password-strength-text { color: #e74c3c; }
+
+        .password-strength.strength-medium .password-strength-bar span:nth-child(1),
+        .password-strength.strength-medium .password-strength-bar span:nth-child(2) { background: #f39c12; }
+        .password-strength.strength-medium .password-strength-text { color: #f39c12; }
+
+        .password-strength.strength-strong .password-strength-bar span:nth-child(1),
+        .password-strength.strength-strong .password-strength-bar span:nth-child(2),
+        .password-strength.strength-strong .password-strength-bar span:nth-child(3) { background: #27ae60; }
+        .password-strength.strength-strong .password-strength-text { color: #27ae60; }
+
+        .password-strength.strength-very-strong .password-strength-bar span { background: #1abc9c; }
+        .password-strength.strength-very-strong .password-strength-text { color: #16a085; }
+
+        /* Terms & conditions checkbox (Register screen) */
+        .terms-group {
+            margin-top: -6px;
+        }
+
+        .terms-check {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            cursor: pointer;
+            font-size: 13.5px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .terms-check input[type="checkbox"] {
+            margin-top: 3px;
+            width: 17px;
+            height: 17px;
+            accent-color: #27ae60;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .terms-link {
+            font-weight: 600;
+        }
+
+        .btn.btn-disabled,
+        .auth-container .btn:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+            box-shadow: none !important;
+            transform: none !important;
+        }
+
+        /* Terms & Conditions modal */
+        .terms-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 999999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .terms-modal-overlay.hidden {
+            display: none !important;
+        }
+
+        .terms-modal {
+            background: #fff;
+            width: 100%;
+            max-width: 560px;
+            max-height: 85vh;
+            border-radius: 18px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .terms-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 24px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .terms-modal-header h3 {
+            color: var(--primary-color);
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .terms-modal-close {
+            background: #f1f2f6;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            color: #555;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .terms-modal-body {
+            padding: 20px 24px;
+            overflow-y: auto;
+            font-size: 14px;
+            color: #444;
+            line-height: 1.7;
+        }
+
+        .terms-modal-body h4 {
+            color: var(--primary-color);
+            margin: 18px 0 8px;
+            font-size: 14.5px;
+        }
+
+        .terms-modal-body h4:first-child {
+            margin-top: 0;
+        }
+
+        .terms-modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid #eee;
+        }
+
+        .terms-modal-footer .btn {
+            width: auto;
+            padding: 12px 22px;
         }
 
         /* Form Styles */
@@ -3995,7 +4501,7 @@ body.verify-modal-open {
         <div class="settings-header">
             <h2>
                 <i class="fas fa-cog"></i>
-                Mipangilio ya Mfumo
+                <span data-i18n="settings_title">Mipangilio ya Mfumo</span>
             </h2>
             <button class="close-settings" onclick="closeSettings()">
                 <i class="fas fa-times"></i>
@@ -4003,41 +4509,68 @@ body.verify-modal-open {
         </div>
 
         <div class="settings-section">
-            <h3><i class="fas fa-church"></i> Taarifa za Kanisa</h3>
+            <h3><i class="fas fa-sliders-h"></i> <span data-i18n="settings_lang_theme_title">Lugha na Mandhari</span></h3>
+            <div class="settings-lang-theme-row">
+                <div class="settings-lang-theme-item">
+                    <label data-i18n="settings_language_label">Lugha ya Mfumo</label>
+                    <div class="lang-switch">
+                        <button type="button" class="lang-btn" data-lang="sw" onclick="setAppLanguage('sw')">SW</button>
+                        <button type="button" class="lang-btn" data-lang="en" onclick="setAppLanguage('en')">EN</button>
+                    </div>
+                </div>
+                <div class="settings-lang-theme-item">
+                    <label data-i18n="settings_theme_label">Mandhari ya Mfumo</label>
+                    <button type="button" class="theme-dropdown-btn" id="themeDropdownBtn" onclick="toggleThemeDropdown()">
+                        <i class="fas fa-palette"></i>
+                        <span data-i18n="settings_theme_btn">Mandhari</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="theme-swatch-panel theme-switch" id="themeSwatchPanel">
+                        <button type="button" class="theme-swatch" data-theme="royal" onclick="setAppTheme('royal')" title="Bluu ya Kifalme"></button>
+                        <button type="button" class="theme-swatch" data-theme="emerald" onclick="setAppTheme('emerald')" title="Kijani cha Zumaridi"></button>
+                        <button type="button" class="theme-swatch" data-theme="purple" onclick="setAppTheme('purple')" title="Zambarau ya Kifahari"></button>
+                        <button type="button" class="theme-swatch" data-theme="sunset" onclick="setAppTheme('sunset')" title="Machweo ya Jua"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <h3><i class="fas fa-church"></i> <span data-i18n="settings_church_info_title">Taarifa za Kanisa</span></h3>
             <div class="form-group">
-                <label for="churchNameSetting">Jina la Kanisa</label>
+                <label for="churchNameSetting" data-i18n="settings_church_name_label">Jina la Kanisa</label>
                 <div class="input-with-icon">
                     <i class="fas fa-church input-icon"></i>
                     <input type="text" id="churchNameSetting" class="form-control" 
-                           placeholder="Ingiza jina jipya la kanisa">
+                           placeholder="Ingiza jina jipya la kanisa" data-i18n-placeholder="settings_church_name_placeholder">
                 </div>
             </div>
             <button class="btn btn-primary" onclick="updateChurchName()">
-                <i class="fas fa-save"></i> Hifadhi Jina la Kanisa
+                <i class="fas fa-save"></i> <span data-i18n="settings_save_church_name">Hifadhi Jina la Kanisa</span>
             </button>
         </div>
         
         <div class="settings-section">
-            <h3><i class="fas fa-columns"></i> Mipangilio ya Dashboard</h3>
-            <p style="color: #666; margin-bottom: 15px; font-size: 14px;">Chagua dashboards unazotaka kuona au kuzificha:</p>
+            <h3><i class="fas fa-columns"></i> <span data-i18n="settings_dashboard_title">Mipangilio ya Dashboard</span></h3>
+            <p style="color: #666; margin-bottom: 15px; font-size: 14px;" data-i18n="settings_dashboard_desc">Chagua dashboards unazotaka kuona au kuzificha:</p>
             <div id="dashboardSettingsList" style="display: flex; flex-direction: column; gap: 10px;">
                 <div style="text-align: center; padding: 20px;">
-                    <div class="loading-spinner"></div> Inapakia...
+                    <div class="loading-spinner"></div> <span data-i18n="loading_generic">Inapakia...</span>
                 </div>
             </div>
             <button class="btn btn-primary" onclick="saveDashboardSettings()" style="margin-top: 15px;">
-                <i class="fas fa-save"></i> Hifadhi Mipangilio ya Dashboard
+                <i class="fas fa-save"></i> <span data-i18n="settings_save_dashboard">Hifadhi Mipangilio ya Dashboard</span>
             </button>
         </div>
 
         <div class="settings-section">
-            <h3><i class="fas fa-lock"></i> Usalama</h3>
+            <h3><i class="fas fa-lock"></i> <span data-i18n="settings_security_title">Usalama</span></h3>
             <div class="form-group">
-                <label for="currentPassword">Nenosiri la Sasa</label>
+                <label for="currentPassword" data-i18n="settings_current_password_label">Nenosiri la Sasa</label>
                 <div class="input-with-icon">
                     <i class="fas fa-key input-icon"></i>
                     <input type="password" id="currentPassword" class="form-control" 
-                           placeholder="Ingiza nenosiri la sasa">
+                           placeholder="Ingiza nenosiri la sasa" data-i18n-placeholder="settings_current_password_placeholder">
                     <button type="button" class="toggle-password" onclick="togglePassword('currentPassword')">
                         <i class="fas fa-eye"></i>
                     </button>
@@ -4045,11 +4578,11 @@ body.verify-modal-open {
             </div>
             
             <div class="form-group">
-                <label for="newPassword">Nenosiri Jipya</label>
+                <label for="newPassword" data-i18n="settings_new_password_label">Nenosiri Jipya</label>
                 <div class="input-with-icon">
                     <i class="fas fa-lock input-icon"></i>
                     <input type="password" id="newPassword" class="form-control" 
-                           placeholder="Angalau herufi 8">
+                           placeholder="Angalau herufi 8" data-i18n-placeholder="placeholder_register_password">
                     <button type="button" class="toggle-password" onclick="togglePassword('newPassword')">
                         <i class="fas fa-eye"></i>
                     </button>
@@ -4057,11 +4590,11 @@ body.verify-modal-open {
             </div>
             
             <div class="form-group">
-                <label for="confirmNewPassword">Thibitisha Nenosiri Jipya</label>
+                <label for="confirmNewPassword" data-i18n="settings_confirm_new_password_label">Thibitisha Nenosiri Jipya</label>
                 <div class="input-with-icon">
                     <i class="fas fa-lock input-icon"></i>
                     <input type="password" id="confirmNewPassword" class="form-control" 
-                           placeholder="Ingiza tena nenosiri jipya">
+                           placeholder="Ingiza tena nenosiri jipya" data-i18n-placeholder="settings_confirm_new_password_placeholder">
                     <button type="button" class="toggle-password" onclick="togglePassword('confirmNewPassword')">
                         <i class="fas fa-eye"></i>
                     </button>
@@ -4069,43 +4602,43 @@ body.verify-modal-open {
             </div>
             
             <button class="btn btn-success" onclick="changePassword()">
-                <i class="fas fa-key"></i> Badilisha Nenosiri
+                <i class="fas fa-key"></i> <span data-i18n="settings_change_password_btn">Badilisha Nenosiri</span>
             </button>
         </div>
 
         <div class="settings-section">
-            <h3><i class="fas fa-info-circle"></i> Taarifa za Akaunti</h3>
+            <h3><i class="fas fa-info-circle"></i> <span data-i18n="settings_account_info_title">Taarifa za Akaunti</span></h3>
             <div style="background: #f0f7ff; padding: 20px; border-radius: 8px;">
                 <div style="margin-bottom: 15px;">
-                    <strong><i class="fas fa-user"></i> Jina la Mtumiaji:</strong><br>
+                    <strong><i class="fas fa-user"></i> <span data-i18n="settings_account_username_label">Jina la Mtumiaji:</span></strong><br>
                     <span id="accountChurchName">Hakuna</span>
                 </div>
                 <div style="margin-bottom: 15px;">
-                    <strong><i class="fas fa-envelope"></i> Barua Pepe:</strong><br>
+                    <strong><i class="fas fa-envelope"></i> <span data-i18n="settings_account_email_label">Barua Pepe:</span></strong><br>
                     <span id="accountEmail">Hakuna</span>
                 </div>
                 <div style="margin-bottom: 15px;">
-                    <strong><i class="fas fa-sign-in-alt"></i> Mwisho Kuingia:</strong><br>
+                    <strong><i class="fas fa-sign-in-alt"></i> <span data-i18n="settings_account_last_login_label">Mwisho Kuingia:</span></strong><br>
                     <span id="lastLogin">Inaendelea...</span>
                 </div>
                 <div>
-                    <strong><i class="fas fa-database"></i> Hali ya Data:</strong><br>
+                    <strong><i class="fas fa-database"></i> <span data-i18n="settings_account_data_status_label">Hali ya Data:</span></strong><br>
                     <span id="dataStatus">Inaendelea kusanikisha...</span>
                 </div>
             </div>
         </div>
 
         <div class="settings-section">
-            <h3><i class="fas fa-database"></i> Usimamizi wa Data</h3>
+            <h3><i class="fas fa-database"></i> <span data-i18n="settings_data_mgmt_title">Usimamizi wa Data</span></h3>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
                 <button class="btn btn-outline" onclick="clearLocalData()">
-                    <i class="fas fa-trash"></i> Futa Data ya Kwenye Kifaa
+                    <i class="fas fa-trash"></i> <span data-i18n="settings_clear_local_data">Futa Data ya Kwenye Kifaa</span>
                 </button>
                 <button class="btn btn-outline" onclick="exportData()">
-                    <i class="fas fa-download"></i> Pakua Data
+                    <i class="fas fa-download"></i> <span data-i18n="settings_export_data">Pakua Data</span>
                 </button>
                 <button class="btn btn-primary" onclick="refreshAllData()">
-                    <i class="fas fa-sync"></i> Sanikisha Data Upya
+                    <i class="fas fa-sync"></i> <span data-i18n="settings_resync_data">Sanikisha Data Upya</span>
                 </button>
             </div>
         </div>
@@ -4294,130 +4827,258 @@ body.verify-modal-open {
 
 <!-- Login Screen -->
 <div id="loginScreen" class="auth-container">
-    <div class="auth-card">
-        <div class="auth-logo">
-            <div class="auth-logo-icon">
-                <i class="fas fa-church"></i>
-            </div>
-            <h2>MFUMO WA USIMAMIZI WA KANISA</h2>
-            <p>Ingia kwa akaunti yako</p>
+    <div class="auth-quick-settings">
+        <div class="lang-switch">
+            <button type="button" class="lang-btn" data-lang="sw" onclick="setAppLanguage('sw')">SW</button>
+            <button type="button" class="lang-btn" data-lang="en" onclick="setAppLanguage('en')">EN</button>
         </div>
-
-        <div class="form-group">
-            <label for="loginEmail"><i class="fas fa-envelope"></i> Barua Pepe</label>
-            <div class="input-with-icon">
-                <i class="fas fa-envelope input-icon"></i>
-                <input type="email" id="loginEmail" class="form-control" placeholder="example@gmail.com">
-            </div>
+        <div class="theme-switch">
+            <button type="button" class="theme-swatch" data-theme="royal" onclick="setAppTheme('royal')" title="Bluu ya Kifalme"></button>
+            <button type="button" class="theme-swatch" data-theme="emerald" onclick="setAppTheme('emerald')" title="Kijani cha Zumaridi"></button>
+            <button type="button" class="theme-swatch" data-theme="purple" onclick="setAppTheme('purple')" title="Zambarau ya Kifahari"></button>
+            <button type="button" class="theme-swatch" data-theme="sunset" onclick="setAppTheme('sunset')" title="Machweo ya Jua"></button>
         </div>
-
-        <div class="form-group">
-            <label for="loginPassword"><i class="fas fa-lock"></i> Nenosiri</label>
-            <div class="input-with-icon">
-                <i class="fas fa-lock input-icon"></i>
-                <input type="password" id="loginPassword" class="form-control" placeholder="••••••••">
-                <button type="button" class="toggle-password" onclick="togglePassword('loginPassword')">
-                    <i class="fas fa-eye"></i>
-                </button>
-            </div>
+    </div>
+    <div class="auth-brand">
+        <div class="auth-brand-content">
+            <div class="auth-brand-icon"><i class="fas fa-church"></i></div>
+            <h1 data-i18n="login_brand_title">Mfumo wa Usimamizi wa Kanisa</h1>
+            <p data-i18n="login_brand_desc">Mfumo huu unafaa kwa makanisa yote - madogo na makubwa - kusimamia waumini, michango na taarifa za kanisa mahali pamoja, kwa urahisi na uhakika.</p>
+            <ul class="auth-features">
+                <li><i class="fas fa-users"></i> <span data-i18n="login_feat1">Usajili na usimamizi kamili wa waumini, ubatizo na ndoa</span></li>
+                <li><i class="fas fa-hand-holding-heart"></i> <span data-i18n="login_feat2">Ufuatiliaji wa michango, sadaka na majarida ya fedha</span></li>
+                <li><i class="fas fa-wifi"></i> <span data-i18n="login_feat3">Inafanya kazi hata bila mtandao na kusawazisha baadaye</span></li>
+                <li><i class="fas fa-chart-line"></i> <span data-i18n="login_feat4">Ripoti sahihi za kifedha wakati wowote unapohitaji</span></li>
+                <li><i class="fas fa-shield-alt"></i> <span data-i18n="login_feat5">Taarifa za kanisa lako zinahifadhiwa salama</span></li>
+            </ul>
         </div>
+    </div>
+    <div class="auth-form-panel">
+        <div class="auth-card">
+            <div class="auth-logo">
+                <div class="auth-logo-icon">
+                    <i class="fas fa-church"></i>
+                </div>
+                <h2 data-i18n="login_logo_title">Mfumo wa Usimamizi wa Kanisa</h2>
+                <p data-i18n="login_logo_sub">Ingia kwa akaunti yako</p>
+            </div>
 
-        <button class="btn btn-primary" onclick="login()">
-            <i class="fas fa-sign-in-alt"></i> Ingia
-        </button>
+            <div class="form-group">
+                <label for="loginEmail"><i class="fas fa-envelope"></i> <span data-i18n="label_email">Barua Pepe</span></label>
+                <div class="input-with-icon">
+                    <i class="fas fa-envelope input-icon"></i>
+                    <input type="email" id="loginEmail" class="form-control" placeholder="example@gmail.com">
+                </div>
+            </div>
 
-        <div class="links">
-            <a class="link" onclick="showRegister()">Jisajili Akaunti</a>
-            <span>|</span>
-            <a class="link" onclick="showForgotPassword()">Umesahau Nenosiri?</a>
+            <div class="form-group">
+                <label for="loginPassword"><i class="fas fa-lock"></i> <span data-i18n="label_password">Nenosiri</span></label>
+                <div class="input-with-icon">
+                    <i class="fas fa-lock input-icon"></i>
+                    <input type="password" id="loginPassword" class="form-control" placeholder="••••••••">
+                    <button type="button" class="toggle-password" onclick="togglePassword('loginPassword')">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" onclick="login()">
+                <i class="fas fa-sign-in-alt"></i> <span data-i18n="btn_login">Ingia</span>
+            </button>
+
+            <div class="links">
+                <a class="link" onclick="showRegister()" data-i18n="link_register">Jisajili Akaunti</a>
+                <span>|</span>
+                <a class="link" onclick="showForgotPassword()" data-i18n="link_forgot">Umesahau Nenosiri?</a>
+            </div>
         </div>
     </div>
 </div>
 
 <!-- Register Screen -->
 <div id="registerScreen" class="auth-container hidden">
-    <div class="auth-card">
-        <div class="auth-logo">
-            <div class="auth-logo-icon">
-                <i class="fas fa-user-plus"></i>
-            </div>
-            <h2>Jisajili Akaunti</h2>
-            <p>Unda akaunti mpya kwa kanisa lako</p>
+    <div class="auth-quick-settings">
+        <div class="lang-switch">
+            <button type="button" class="lang-btn" data-lang="sw" onclick="setAppLanguage('sw')">SW</button>
+            <button type="button" class="lang-btn" data-lang="en" onclick="setAppLanguage('en')">EN</button>
         </div>
+        <div class="theme-switch">
+            <button type="button" class="theme-swatch" data-theme="royal" onclick="setAppTheme('royal')" title="Bluu ya Kifalme"></button>
+            <button type="button" class="theme-swatch" data-theme="emerald" onclick="setAppTheme('emerald')" title="Kijani cha Zumaridi"></button>
+            <button type="button" class="theme-swatch" data-theme="purple" onclick="setAppTheme('purple')" title="Zambarau ya Kifahari"></button>
+            <button type="button" class="theme-swatch" data-theme="sunset" onclick="setAppTheme('sunset')" title="Machweo ya Jua"></button>
+        </div>
+    </div>
+    <div class="auth-brand">
+        <div class="auth-brand-content">
+            <div class="auth-brand-icon"><i class="fas fa-user-plus"></i></div>
+            <h1 data-i18n="register_brand_title">Anza Safari Yako Nasi</h1>
+            <p data-i18n="register_brand_desc">Fungua akaunti ya kanisa lako na uanze kusimamia waumini na fedha kwa njia ya kisasa.</p>
+            <ul class="auth-features">
+                <li><i class="fas fa-bolt"></i> <span data-i18n="register_feat1">Usanidi wa haraka, dakika chache tu</span></li>
+                <li><i class="fas fa-mobile-alt"></i> <span data-i18n="register_feat2">Inafanya kazi hata bila mtandao</span></li>
+                <li><i class="fas fa-lock"></i> <span data-i18n="register_feat3">Taarifa zako zimehifadhiwa salama</span></li>
+            </ul>
+        </div>
+    </div>
+    <div class="auth-form-panel">
+        <div class="auth-card">
+            <div class="auth-logo">
+                <div class="auth-logo-icon">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <h2 data-i18n="register_logo_title">Jisajili Akaunti</h2>
+                <p data-i18n="register_logo_sub">Unda akaunti mpya kwa kanisa lako</p>
+            </div>
 
-        <div class="form-group">
-            <label for="churchName"><i class="fas fa-church"></i> Jina la Kanisa</label>
-            <div class="input-with-icon">
-                <i class="fas fa-church input-icon"></i>
-                <input type="text" id="churchName" class="form-control" placeholder="Ingiza jina la kanisa">
+            <div class="form-group">
+                <label for="churchName"><i class="fas fa-church"></i> <span data-i18n="label_church_name">Jina la Kanisa</span></label>
+                <div class="input-with-icon">
+                    <i class="fas fa-church input-icon"></i>
+                    <input type="text" id="churchName" class="form-control" placeholder="Ingiza jina la kanisa" data-i18n-placeholder="placeholder_church_name">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="registerEmail"><i class="fas fa-envelope"></i> <span data-i18n="label_email">Barua Pepe</span></label>
+                <div class="input-with-icon">
+                    <i class="fas fa-envelope input-icon"></i>
+                    <input type="email" id="registerEmail" class="form-control" placeholder="example@gmail.com">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="registerPassword"><i class="fas fa-lock"></i> <span data-i18n="label_password">Nenosiri</span></label>
+                <div class="input-with-icon">
+                    <i class="fas fa-lock input-icon"></i>
+                    <input type="password" id="registerPassword" class="form-control" placeholder="Angalau herufi 8" data-i18n-placeholder="placeholder_register_password" oninput="updatePasswordStrength(this.value)">
+                    <button type="button" class="toggle-password" onclick="togglePassword('registerPassword')">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+                <div class="password-strength" id="passwordStrength" style="display: none;">
+                    <div class="password-strength-bar">
+                        <span></span><span></span><span></span><span></span>
+                    </div>
+                    <span class="password-strength-text" id="passwordStrengthText"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword"><i class="fas fa-lock"></i> <span data-i18n="label_confirm_password">Thibitisha Nenosiri</span></label>
+                <div class="input-with-icon">
+                    <i class="fas fa-lock input-icon"></i>
+                    <input type="password" id="confirmPassword" class="form-control" placeholder="Ingiza tena nenosiri" data-i18n-placeholder="placeholder_confirm_password">
+                    <button type="button" class="toggle-password" onclick="togglePassword('confirmPassword')">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-group terms-group">
+                <label class="terms-check">
+                    <input type="checkbox" id="agreeTermsCheckbox" onchange="toggleRegisterButtonState()">
+                    <span><span data-i18n="terms_prefix">Nakubali</span> <a class="link terms-link" data-i18n="terms_link" onclick="showTermsModal(); return false;">Vigezo na Masharti</a> <span data-i18n="terms_suffix">ya matumizi ya mfumo huu</span></span>
+                </label>
+            </div>
+
+            <button class="btn btn-success" id="registerSubmitBtn" onclick="register()" disabled>
+                <i class="fas fa-user-plus"></i> <span data-i18n="btn_register">Jisajili</span>
+            </button>
+
+            <div class="links">
+                <a class="link" onclick="showLogin()" data-i18n="link_back_to_login">Rudi kwenye Login</a>
             </div>
         </div>
+    </div>
+</div>
 
-        <div class="form-group">
-            <label for="registerEmail"><i class="fas fa-envelope"></i> Barua Pepe</label>
-            <div class="input-with-icon">
-                <i class="fas fa-envelope input-icon"></i>
-                <input type="email" id="registerEmail" class="form-control" placeholder="example@gmail.com">
-            </div>
+<!-- Vigezo na Masharti Modal -->
+<div id="termsModal" class="terms-modal-overlay hidden">
+    <div class="terms-modal">
+        <div class="terms-modal-header">
+            <h3><i class="fas fa-file-contract"></i> <span data-i18n="terms_modal_title">Vigezo na Masharti</span></h3>
+            <button type="button" class="terms-modal-close" onclick="closeTermsModal()">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
+        <div class="terms-modal-body">
+            <h4 data-i18n="terms_h1">1. Matumizi ya Mfumo</h4>
+            <p data-i18n="terms_p1">Mfumo huu wa Usimamizi wa Kanisa umeandaliwa kwa lengo la kuisaidia taasisi yako ya kidini kusimamia kwa ufanisi taarifa za waumini, michango, sadaka na shughuli nyingine za kiutawala. Kwa kutumia mfumo huu, unakubali kuutumia kwa madhumuni halali yanayohusiana na uendeshaji wa kanisa lako pekee.</p>
 
-        <div class="form-group">
-            <label for="registerPassword"><i class="fas fa-lock"></i> Nenosiri</label>
-            <div class="input-with-icon">
-                <i class="fas fa-lock input-icon"></i>
-                <input type="password" id="registerPassword" class="form-control" placeholder="Angalau herufi 8">
-                <button type="button" class="toggle-password" onclick="togglePassword('registerPassword')">
-                    <i class="fas fa-eye"></i>
-                </button>
-            </div>
+            <h4 data-i18n="terms_h2">2. Usahihi wa Taarifa</h4>
+            <p data-i18n="terms_p2">Ni jukumu lako kuhakikisha taarifa unazoweka kwenye mfumo - iwe za kanisa, waumini au fedha - ni sahihi na za kweli. Msimamizi wa akaunti ndiye mwenye jukumu kamili la usahihi wa taarifa zote zinazoingizwa na kuhifadhiwa ndani ya akaunti yake.</p>
+
+            <h4 data-i18n="terms_h3">3. Usalama wa Akaunti</h4>
+            <p data-i18n="terms_p3">Unatakiwa kutunza kwa siri barua pepe na nenosiri la akaunti yako. Usimpe mtu yeyote asiyeidhinishwa nenosiri lako. Endapo utabaini dalili za uvamizi kwenye akaunti yako, badilisha nenosiri mara moja.</p>
+
+            <h4 data-i18n="terms_h4">4. Faragha na Uhifadhi wa Taarifa</h4>
+            <p data-i18n="terms_p4">Taarifa unazoweka kwenye mfumo zinahifadhiwa kwa lengo la kuwezesha huduma zake, ikiwa ni pamoja na uhifadhi wa nakala pale kusipo na mtandao (offline) na usawazishaji wa taarifa hizo na seva mara mtandao unapopatikana. Taarifa hizi hazitatumika kwa madhumuni mengine yoyote nje ya uendeshaji wa mfumo huu.</p>
+
+            <h4 data-i18n="terms_h5">5. Mabadiliko ya Vigezo na Masharti</h4>
+            <p data-i18n="terms_p5">Vigezo na masharti haya yanaweza kufanyiwa mabadiliko au maboresho wakati wowote ili kuendana na maboresho ya mfumo. Kuendelea kutumia mfumo baada ya mabadiliko hayo kunamaanisha umekubaliana na vigezo na masharti mapya.</p>
+
+            <h4 data-i18n="terms_h6">6. Kikomo cha Dhamana</h4>
+            <p data-i18n="terms_p6">Mfumo huu unatolewa kama ulivyo, kwa lengo la kurahisisha uendeshaji wa shughuli za kanisa. Ni jukumu la msimamizi wa akaunti kuhakiki na kuthibitisha usahihi wa taarifa muhimu - hususan takwimu za kifedha - kabla ya kuzitumia kufanya maamuzi rasmi.</p>
         </div>
-
-        <div class="form-group">
-            <label for="confirmPassword"><i class="fas fa-lock"></i> Thibitisha Nenosiri</label>
-            <div class="input-with-icon">
-                <i class="fas fa-lock input-icon"></i>
-                <input type="password" id="confirmPassword" class="form-control" placeholder="Ingiza tena nenosiri">
-                <button type="button" class="toggle-password" onclick="togglePassword('confirmPassword')">
-                    <i class="fas fa-eye"></i>
-                </button>
-            </div>
-        </div>
-
-        <button class="btn btn-success" onclick="register()">
-            <i class="fas fa-user-plus"></i> Jisajili
-        </button>
-
-        <div class="links">
-            <a class="link" onclick="showLogin()">Rudi kwenye Login</a>
+        <div class="terms-modal-footer">
+            <button type="button" class="btn btn-primary" onclick="closeTermsModal()">
+                <i class="fas fa-check"></i> <span data-i18n="terms_modal_button">Nimeelewa</span>
+            </button>
         </div>
     </div>
 </div>
 
 <!-- Forgot Password Screen -->
 <div id="forgotScreen" class="auth-container hidden">
-    <div class="auth-card">
-        <div class="auth-logo">
-            <div class="auth-logo-icon">
-                <i class="fas fa-key"></i>
-            </div>
-            <h2>Umesahau Nenosiri?</h2>
-            <p>Tuma nenosiri jipya kwenye barua pepe yako</p>
+    <div class="auth-quick-settings">
+        <div class="lang-switch">
+            <button type="button" class="lang-btn" data-lang="sw" onclick="setAppLanguage('sw')">SW</button>
+            <button type="button" class="lang-btn" data-lang="en" onclick="setAppLanguage('en')">EN</button>
         </div>
-
-        <div class="form-group">
-            <label for="forgotEmail"><i class="fas fa-envelope"></i> Barua Pepe</label>
-            <div class="input-with-icon">
-                <i class="fas fa-envelope input-icon"></i>
-                <input type="email" id="forgotEmail" class="form-control" placeholder="Ingiza barua pepe yako">
-            </div>
+        <div class="theme-switch">
+            <button type="button" class="theme-swatch" data-theme="royal" onclick="setAppTheme('royal')" title="Bluu ya Kifalme"></button>
+            <button type="button" class="theme-swatch" data-theme="emerald" onclick="setAppTheme('emerald')" title="Kijani cha Zumaridi"></button>
+            <button type="button" class="theme-swatch" data-theme="purple" onclick="setAppTheme('purple')" title="Zambarau ya Kifahari"></button>
+            <button type="button" class="theme-swatch" data-theme="sunset" onclick="setAppTheme('sunset')" title="Machweo ya Jua"></button>
         </div>
+    </div>
+    <div class="auth-brand">
+        <div class="auth-brand-content">
+            <div class="auth-brand-icon"><i class="fas fa-key"></i></div>
+            <h1 data-i18n="forgot_brand_title">Rejesha Ufikiaji wa Akaunti Yako</h1>
+            <p data-i18n="forgot_brand_desc">Usijali, hutokei kwa mtu mmoja. Tutakusaidia kurejesha nenosiri lako haraka na kwa usalama.</p>
+            <ul class="auth-features">
+                <li><i class="fas fa-envelope-open-text"></i> <span data-i18n="forgot_feat1">Nenosiri jipya litatumwa kwenye barua pepe yako</span></li>
+                <li><i class="fas fa-shield-alt"></i> <span data-i18n="forgot_feat2">Mchakato salama na wa haraka</span></li>
+            </ul>
+        </div>
+    </div>
+    <div class="auth-form-panel">
+        <div class="auth-card">
+            <div class="auth-logo">
+                <div class="auth-logo-icon">
+                    <i class="fas fa-key"></i>
+                </div>
+                <h2 data-i18n="forgot_logo_title">Umesahau Nenosiri?</h2>
+                <p data-i18n="forgot_logo_sub">Tuma nenosiri jipya kwenye barua pepe yako</p>
+            </div>
 
-        <button class="btn btn-accent" onclick="forgotPassword()">
-            <i class="fas fa-paper-plane"></i> Tuma Nenosiri Jipya
-        </button>
+            <div class="form-group">
+                <label for="forgotEmail"><i class="fas fa-envelope"></i> <span data-i18n="label_email">Barua Pepe</span></label>
+                <div class="input-with-icon">
+                    <i class="fas fa-envelope input-icon"></i>
+                    <input type="email" id="forgotEmail" class="form-control" placeholder="Ingiza barua pepe yako" data-i18n-placeholder="placeholder_forgot_email">
+                </div>
+            </div>
 
-        <div class="links">
-            <a class="link" onclick="showLogin()">Rudi kwenye Login</a>
+            <button class="btn btn-accent" onclick="forgotPassword()">
+                <i class="fas fa-paper-plane"></i> <span data-i18n="btn_forgot_submit">Tuma Nenosiri Jipya</span>
+            </button>
+
+            <div class="links">
+                <a class="link" onclick="showLogin()" data-i18n="link_back_to_login">Rudi kwenye Login</a>
+            </div>
         </div>
     </div>
 </div>
@@ -5380,7 +6041,7 @@ body.verify-modal-open {
         </div>
 
         <div class="form-group">
-            <button class="btn btn-success" onclick="saveTransaction()" style="margin-top: 25px;">
+            <button id="saveTransactionBtn" class="btn btn-success" onclick="saveTransaction()" style="margin-top: 25px;">
                 <i class="fas fa-save"></i> Hifadhi Miamala
             </button>
         </div>
@@ -6048,6 +6709,8 @@ const PENDING_CHILDREN_BLESSING_QUEUE_KEY = "pending_children_blessing_queue_v1"
 const PENDING_DASHBOARD_SETTINGS_QUEUE_KEY = "pending_dashboard_settings_queue_v1";
 const REPORTS_FOLDER_ID = "1uZrdD2NOUXWeZd7HUV6lU4PBO0tnNfYN";
 const CACHE_VERSION_KEY = "church_cache_version";
+const PENDING_VERIFY_KEY = "church_pending_verify_v1";
+const PENDING_RESET_KEY = "church_pending_reset_v1";
 
 // Dashboard configuration - for normal users
 const dashboards = [
@@ -6106,6 +6769,48 @@ let verifyContext = null;
 let verifyTimerInterval = null;
 let verifyTimeLeft = 300;
 let resetEmailAddress = null;
+
+// Persist the OTP verification state so a page refresh (e.g. the user
+// switching apps to check their email for the code) doesn't wipe the
+// modal and force them to start login/register over again.
+function savePendingVerify(email, context, remainingSeconds) {
+    try {
+        localStorage.setItem(PENDING_VERIFY_KEY, JSON.stringify({
+            email: email,
+            context: context,
+            expiresAt: Date.now() + (remainingSeconds * 1000)
+        }));
+    } catch (error) {
+        console.error('Failed to save pending verification state:', error);
+    }
+}
+
+function clearPendingVerify() {
+    try {
+        localStorage.removeItem(PENDING_VERIFY_KEY);
+    } catch (error) {
+        console.error('Failed to clear pending verification state:', error);
+    }
+}
+
+// Same idea as savePendingVerify/clearPendingVerify, but for the
+// "reset_required" password reset modal (it also has an email-code
+// field, and should survive a refresh the same way).
+function savePendingReset(email) {
+    try {
+        localStorage.setItem(PENDING_RESET_KEY, JSON.stringify({ email: email }));
+    } catch (error) {
+        console.error('Failed to save pending reset state:', error);
+    }
+}
+
+function clearPendingReset() {
+    try {
+        localStorage.removeItem(PENDING_RESET_KEY);
+    } catch (error) {
+        console.error('Failed to clear pending reset state:', error);
+    }
+}
 
 // ============================================
 // HELPER FUNCTIONS
@@ -6225,6 +6930,364 @@ function togglePassword(fieldId) {
     }
 }
 
+// Shows a live strength indicator (weak/medium/strong/imara sana) while
+// the user types their password on the Register screen.
+function updatePasswordStrength(password) {
+    const wrap = document.getElementById('passwordStrength');
+    const text = document.getElementById('passwordStrengthText');
+    if (!wrap || !text) return;
+
+    if (!password) {
+        wrap.style.display = 'none';
+        wrap.className = 'password-strength';
+        return;
+    }
+
+    wrap.style.display = 'block';
+
+    let score = 0;
+    if (password.length >= 8) score++;
+    if (password.length >= 12) score++;
+    if (/[A-Z]/.test(password) && /[a-z]/.test(password)) score++;
+    if (/\d/.test(password)) score++;
+    if (/[^A-Za-z0-9]/.test(password)) score++;
+
+    const t = APP_TRANSLATIONS[currentAppLanguage] || APP_TRANSLATIONS.sw;
+    let level, label;
+    if (password.length < 8) {
+        level = 'weak';
+        label = t.strength_weak_short;
+    } else if (score <= 2) {
+        level = 'weak';
+        label = t.strength_weak;
+    } else if (score === 3) {
+        level = 'medium';
+        label = t.strength_medium;
+    } else if (score === 4) {
+        level = 'strong';
+        label = t.strength_strong;
+    } else {
+        level = 'very-strong';
+        label = t.strength_very_strong;
+    }
+
+    wrap.className = 'password-strength strength-' + level;
+    text.textContent = label;
+}
+
+// Enables the "Jisajili" button only once the terms & conditions
+// checkbox has been ticked.
+function toggleRegisterButtonState() {
+    const checkbox = document.getElementById('agreeTermsCheckbox');
+    const registerSubmitBtn = document.getElementById('registerSubmitBtn');
+    if (!checkbox || !registerSubmitBtn) return;
+    registerSubmitBtn.disabled = !checkbox.checked;
+}
+
+function showTermsModal() {
+    const modal = document.getElementById('termsModal');
+    if (modal) modal.classList.remove('hidden');
+}
+
+function closeTermsModal() {
+    const modal = document.getElementById('termsModal');
+    if (modal) modal.classList.add('hidden');
+}
+
+// ============================================
+// BILINGUAL SUPPORT (Kiswahili / English) - App-wide
+// Started on the Login, Register, Forgot Password and Terms screens,
+// and now also covers the in-app Settings (language/theme, account,
+// dashboard, data). Any element anywhere in the document with a
+// data-i18n / data-i18n-placeholder attribute is translated by
+// applyTranslations(). Add more keys/attributes over time to extend
+// coverage to additional screens.
+// ============================================
+const APP_TRANSLATIONS = {
+    sw: {
+        login_brand_title: 'Mfumo wa Usimamizi wa Kanisa',
+        login_brand_desc: 'Mfumo huu unafaa kwa makanisa yote - madogo na makubwa - kusimamia waumini, michango na taarifa za kanisa mahali pamoja, kwa urahisi na uhakika.',
+        login_feat1: 'Usajili na usimamizi kamili wa waumini, ubatizo na ndoa',
+        login_feat2: 'Ufuatiliaji wa michango, sadaka na majarida ya fedha',
+        login_feat3: 'Inafanya kazi hata bila mtandao na kusawazisha baadaye',
+        login_feat4: 'Ripoti sahihi za kifedha wakati wowote unapohitaji',
+        login_feat5: 'Taarifa za kanisa lako zinahifadhiwa salama',
+        login_logo_title: 'Mfumo wa Usimamizi wa Kanisa',
+        login_logo_sub: 'Ingia kwa akaunti yako',
+        label_email: 'Barua Pepe',
+        label_password: 'Nenosiri',
+        btn_login: 'Ingia',
+        link_register: 'Jisajili Akaunti',
+        link_forgot: 'Umesahau Nenosiri?',
+
+        register_brand_title: 'Anza Safari Yako Nasi',
+        register_brand_desc: 'Fungua akaunti ya kanisa lako na uanze kusimamia waumini na fedha kwa njia ya kisasa.',
+        register_feat1: 'Usanidi wa haraka, dakika chache tu',
+        register_feat2: 'Inafanya kazi hata bila mtandao',
+        register_feat3: 'Taarifa zako zimehifadhiwa salama',
+        register_logo_title: 'Jisajili Akaunti',
+        register_logo_sub: 'Unda akaunti mpya kwa kanisa lako',
+        label_church_name: 'Jina la Kanisa',
+        placeholder_church_name: 'Ingiza jina la kanisa',
+        label_confirm_password: 'Thibitisha Nenosiri',
+        placeholder_register_password: 'Angalau herufi 8',
+        placeholder_confirm_password: 'Ingiza tena nenosiri',
+        terms_prefix: 'Nakubali',
+        terms_link: 'Vigezo na Masharti',
+        terms_suffix: 'ya matumizi ya mfumo huu',
+        btn_register: 'Jisajili',
+        link_back_to_login: 'Rudi kwenye Login',
+        strength_weak_short: 'Dhaifu - angalau herufi 8',
+        strength_weak: 'Dhaifu',
+        strength_medium: 'Wastani',
+        strength_strong: 'Imara',
+        strength_very_strong: 'Imara Sana',
+
+        forgot_brand_title: 'Rejesha Ufikiaji wa Akaunti Yako',
+        forgot_brand_desc: 'Usijali, hutokei kwa mtu mmoja. Tutakusaidia kurejesha nenosiri lako haraka na kwa usalama.',
+        forgot_feat1: 'Nenosiri jipya litatumwa kwenye barua pepe yako',
+        forgot_feat2: 'Mchakato salama na wa haraka',
+        forgot_logo_title: 'Umesahau Nenosiri?',
+        forgot_logo_sub: 'Tuma nenosiri jipya kwenye barua pepe yako',
+        placeholder_forgot_email: 'Ingiza barua pepe yako',
+        btn_forgot_submit: 'Tuma Nenosiri Jipya',
+
+        terms_modal_title: 'Vigezo na Masharti',
+        terms_h1: '1. Matumizi ya Mfumo',
+        terms_p1: 'Mfumo huu wa Usimamizi wa Kanisa umeandaliwa kwa lengo la kuisaidia taasisi yako ya kidini kusimamia kwa ufanisi taarifa za waumini, michango, sadaka na shughuli nyingine za kiutawala. Kwa kutumia mfumo huu, unakubali kuutumia kwa madhumuni halali yanayohusiana na uendeshaji wa kanisa lako pekee.',
+        terms_h2: '2. Usahihi wa Taarifa',
+        terms_p2: 'Ni jukumu lako kuhakikisha taarifa unazoweka kwenye mfumo - iwe za kanisa, waumini au fedha - ni sahihi na za kweli. Msimamizi wa akaunti ndiye mwenye jukumu kamili la usahihi wa taarifa zote zinazoingizwa na kuhifadhiwa ndani ya akaunti yake.',
+        terms_h3: '3. Usalama wa Akaunti',
+        terms_p3: 'Unatakiwa kutunza kwa siri barua pepe na nenosiri la akaunti yako. Usimpe mtu yeyote asiyeidhinishwa nenosiri lako. Endapo utabaini dalili za uvamizi kwenye akaunti yako, badilisha nenosiri mara moja.',
+        terms_h4: '4. Faragha na Uhifadhi wa Taarifa',
+        terms_p4: 'Taarifa unazoweka kwenye mfumo zinahifadhiwa kwa lengo la kuwezesha huduma zake, ikiwa ni pamoja na uhifadhi wa nakala pale kusipo na mtandao (offline) na usawazishaji wa taarifa hizo na seva mara mtandao unapopatikana. Taarifa hizi hazitatumika kwa madhumuni mengine yoyote nje ya uendeshaji wa mfumo huu.',
+        terms_h5: '5. Mabadiliko ya Vigezo na Masharti',
+        terms_p5: 'Vigezo na masharti haya yanaweza kufanyiwa mabadiliko au maboresho wakati wowote ili kuendana na maboresho ya mfumo. Kuendelea kutumia mfumo baada ya mabadiliko hayo kunamaanisha umekubaliana na vigezo na masharti mapya.',
+        terms_h6: '6. Kikomo cha Dhamana',
+        terms_p6: 'Mfumo huu unatolewa kama ulivyo, kwa lengo la kurahisisha uendeshaji wa shughuli za kanisa. Ni jukumu la msimamizi wa akaunti kuhakiki na kuthibitisha usahihi wa taarifa muhimu - hususan takwimu za kifedha - kabla ya kuzitumia kufanya maamuzi rasmi.',
+        terms_modal_button: 'Nimeelewa',
+
+        // Settings (in-app, post-login)
+        settings_title: 'Mipangilio ya Mfumo',
+        settings_lang_theme_title: 'Lugha na Mandhari',
+        settings_language_label: 'Lugha ya Mfumo',
+        settings_theme_label: 'Mandhari ya Mfumo',
+        settings_theme_btn: 'Mandhari',
+        settings_church_info_title: 'Taarifa za Kanisa',
+        settings_church_name_label: 'Jina la Kanisa',
+        settings_church_name_placeholder: 'Ingiza jina jipya la kanisa',
+        settings_save_church_name: 'Hifadhi Jina la Kanisa',
+        settings_dashboard_title: 'Mipangilio ya Dashboard',
+        settings_dashboard_desc: 'Chagua dashboards unazotaka kuona au kuzificha:',
+        loading_generic: 'Inapakia...',
+        settings_save_dashboard: 'Hifadhi Mipangilio ya Dashboard',
+        settings_security_title: 'Usalama',
+        settings_current_password_label: 'Nenosiri la Sasa',
+        settings_current_password_placeholder: 'Ingiza nenosiri la sasa',
+        settings_new_password_label: 'Nenosiri Jipya',
+        settings_confirm_new_password_label: 'Thibitisha Nenosiri Jipya',
+        settings_confirm_new_password_placeholder: 'Ingiza tena nenosiri jipya',
+        settings_change_password_btn: 'Badilisha Nenosiri',
+        settings_account_info_title: 'Taarifa za Akaunti',
+        settings_account_username_label: 'Jina la Mtumiaji:',
+        settings_account_email_label: 'Barua Pepe:',
+        settings_account_last_login_label: 'Mwisho Kuingia:',
+        settings_account_data_status_label: 'Hali ya Data:',
+        settings_data_mgmt_title: 'Usimamizi wa Data',
+        settings_clear_local_data: 'Futa Data ya Kwenye Kifaa',
+        settings_export_data: 'Pakua Data',
+        settings_resync_data: 'Sanikisha Data Upya'
+    },
+    en: {
+        login_brand_title: 'Church Management System',
+        login_brand_desc: 'This system is suitable for every church - small or large - to manage members, contributions and church records in one place, simply and reliably.',
+        login_feat1: 'Complete member registration, baptism and marriage records',
+        login_feat2: 'Tracking of contributions, offerings and financial books',
+        login_feat3: 'Works even without internet, syncs automatically later',
+        login_feat4: 'Accurate financial reports whenever you need them',
+        login_feat5: 'Your church data is kept safe and secure',
+        login_logo_title: 'Church Management System',
+        login_logo_sub: 'Sign in to your account',
+        label_email: 'Email Address',
+        label_password: 'Password',
+        btn_login: 'Sign In',
+        link_register: 'Create Account',
+        link_forgot: 'Forgot Password?',
+
+        register_brand_title: 'Start Your Journey With Us',
+        register_brand_desc: 'Set up your church account and start managing members and finances the modern way.',
+        register_feat1: 'Quick setup, only takes a few minutes',
+        register_feat2: 'Works even without internet',
+        register_feat3: 'Your data is kept safe',
+        register_logo_title: 'Create an Account',
+        register_logo_sub: 'Set up a new account for your church',
+        label_church_name: 'Church Name',
+        placeholder_church_name: 'Enter your church name',
+        label_confirm_password: 'Confirm Password',
+        placeholder_register_password: 'At least 8 characters',
+        placeholder_confirm_password: 'Re-enter your password',
+        terms_prefix: 'I agree to the',
+        terms_link: 'Terms and Conditions',
+        terms_suffix: 'of using this system',
+        btn_register: 'Sign Up',
+        link_back_to_login: 'Back to Login',
+        strength_weak_short: 'Weak - at least 8 characters',
+        strength_weak: 'Weak',
+        strength_medium: 'Medium',
+        strength_strong: 'Strong',
+        strength_very_strong: 'Very Strong',
+
+        forgot_brand_title: 'Recover Access to Your Account',
+        forgot_brand_desc: "Don't worry, this happens to everyone. We'll help you recover your password quickly and securely.",
+        forgot_feat1: 'A new password will be sent to your email',
+        forgot_feat2: 'A safe and quick process',
+        forgot_logo_title: 'Forgot Password?',
+        forgot_logo_sub: 'Send a new password to your email',
+        placeholder_forgot_email: 'Enter your email address',
+        btn_forgot_submit: 'Send New Password',
+
+        terms_modal_title: 'Terms and Conditions',
+        terms_h1: '1. Use of the System',
+        terms_p1: 'This Church Management System has been designed to help your religious institution efficiently manage member records, contributions, offerings and other administrative activities. By using this system, you agree to use it only for lawful purposes related to the operation of your church.',
+        terms_h2: '2. Accuracy of Information',
+        terms_p2: 'It is your responsibility to ensure that the information you enter into the system - whether about the church, members or finances - is accurate and truthful. The account administrator bears full responsibility for the accuracy of all information entered and stored within their account.',
+        terms_h3: '3. Account Security',
+        terms_p3: 'You are required to keep your email and account password confidential. Do not share your password with anyone who is not authorized. If you notice any signs that your account has been compromised, change your password immediately.',
+        terms_h4: '4. Privacy and Data Storage',
+        terms_p4: 'The information you enter is stored to enable the system\'s services, including offline storage when there is no internet connection and synchronization with the server once internet becomes available. This information will not be used for any purpose outside the operation of this system.',
+        terms_h5: '5. Changes to These Terms',
+        terms_p5: 'These terms and conditions may be changed or improved at any time to keep up with improvements to the system. Continued use of the system after such changes means you agree to the new terms and conditions.',
+        terms_h6: '6. Limitation of Liability',
+        terms_p6: 'This system is provided as-is, to help simplify the running of church activities. It is the responsibility of the account administrator to verify and confirm the accuracy of important information - particularly financial figures - before relying on it fully for official decisions.',
+        terms_modal_button: 'I Understand',
+
+        // Settings (in-app, post-login)
+        settings_title: 'System Settings',
+        settings_lang_theme_title: 'Language & Theme',
+        settings_language_label: 'System Language',
+        settings_theme_label: 'System Theme',
+        settings_theme_btn: 'Theme',
+        settings_church_info_title: 'Church Information',
+        settings_church_name_label: 'Church Name',
+        settings_church_name_placeholder: 'Enter the new church name',
+        settings_save_church_name: 'Save Church Name',
+        settings_dashboard_title: 'Dashboard Settings',
+        settings_dashboard_desc: 'Choose which dashboards to show or hide:',
+        loading_generic: 'Loading...',
+        settings_save_dashboard: 'Save Dashboard Settings',
+        settings_security_title: 'Security',
+        settings_current_password_label: 'Current Password',
+        settings_current_password_placeholder: 'Enter your current password',
+        settings_new_password_label: 'New Password',
+        settings_confirm_new_password_label: 'Confirm New Password',
+        settings_confirm_new_password_placeholder: 'Re-enter your new password',
+        settings_change_password_btn: 'Change Password',
+        settings_account_info_title: 'Account Information',
+        settings_account_username_label: 'Username:',
+        settings_account_email_label: 'Email Address:',
+        settings_account_last_login_label: 'Last Login:',
+        settings_account_data_status_label: 'Data Status:',
+        settings_data_mgmt_title: 'Data Management',
+        settings_clear_local_data: 'Clear Device Data',
+        settings_export_data: 'Download Data',
+        settings_resync_data: 'Resync Data'
+    }
+};
+
+let currentAppLanguage = 'sw';
+
+// Applies the currently selected language to every element on the
+// page carrying a data-i18n / data-i18n-placeholder attribute, and
+// updates the active state of the language switch buttons.
+function applyTranslations(lang) {
+    const t = APP_TRANSLATIONS[lang] || APP_TRANSLATIONS.sw;
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key] !== undefined) el.textContent = t[key];
+    });
+
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (t[key] !== undefined) el.placeholder = t[key];
+    });
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+    });
+
+    // Refresh the password strength label (if visible) in the new language
+    const strengthWrap = document.getElementById('passwordStrength');
+    const registerPasswordInput = document.getElementById('registerPassword');
+    if (strengthWrap && strengthWrap.style.display !== 'none' && registerPasswordInput) {
+        updatePasswordStrength(registerPasswordInput.value);
+    }
+}
+
+// Switches the app's language between Kiswahili ('sw') and English
+// ('en'), persists the choice, and re-applies it immediately.
+function setAppLanguage(lang) {
+    if (lang !== 'sw' && lang !== 'en') return;
+    currentAppLanguage = lang;
+    try { localStorage.setItem('appLanguage', lang); } catch (e) {}
+    document.documentElement.lang = lang;
+    applyTranslations(lang);
+}
+
+// Switches the visual theme of the whole app (colors/gradients used
+// throughout, via CSS variables), persists the choice, and updates
+// the active swatch indicator.
+function setAppTheme(theme) {
+    const validThemes = ['royal', 'emerald', 'purple', 'sunset'];
+    if (!validThemes.includes(theme)) return;
+    if (theme === 'royal') {
+        document.documentElement.removeAttribute('data-theme');
+    } else {
+        document.documentElement.setAttribute('data-theme', theme);
+    }
+    try { localStorage.setItem('appTheme', theme); } catch (e) {}
+    document.querySelectorAll('.theme-swatch').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-theme') === theme);
+    });
+    // Collapse the Settings theme dropdown (if open) once a choice is made
+    const themePanel = document.getElementById('themeSwatchPanel');
+    const themeBtn = document.getElementById('themeDropdownBtn');
+    if (themePanel) themePanel.classList.remove('open');
+    if (themeBtn) themeBtn.classList.remove('open');
+}
+
+// Shows/hides the theme swatch picker in Settings, so the list of
+// themes stays tucked away behind the "Theme"/"Mandhari" button
+// instead of always being visible.
+function toggleThemeDropdown() {
+    const panel = document.getElementById('themeSwatchPanel');
+    const btn = document.getElementById('themeDropdownBtn');
+    if (!panel || !btn) return;
+    const isOpen = panel.classList.toggle('open');
+    btn.classList.toggle('open', isOpen);
+}
+
+// Restore the user's saved language and theme preference on load.
+(function initAppLanguageAndTheme() {
+    let savedLang = 'sw';
+    let savedTheme = 'royal';
+    try {
+        savedLang = localStorage.getItem('appLanguage') || 'sw';
+        savedTheme = localStorage.getItem('appTheme') || 'royal';
+    } catch (e) {}
+
+    const applyOnReady = () => {
+        setAppLanguage(savedLang);
+        setAppTheme(savedTheme);
+    };
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', applyOnReady);
+    } else {
+        applyOnReady();
+    }
+})();
+
 
        
 
@@ -6271,32 +7334,63 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const refreshBtn = document.getElementById('refreshBtn');
     if (refreshBtn) {
-        if (!isOnline) {
-            refreshBtn.innerHTML = '<i class="fas fa-wifi" style="color: #e74c3c; font-size: 18px; position: relative;"></i>';
-            refreshBtn.style.position = 'relative';
-            refreshBtn.style.backgroundColor = '#f8f9fa';
-            refreshBtn.style.border = '2px solid #e74c3c';
-            
-            const slash = document.createElement('span');
-            slash.className = 'slash-overlay';
-            slash.innerHTML = '\\';
-            slash.style.cssText = 'position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(20deg); font-size: 24px; font-weight: bold; color: #e74c3c; pointer-events: none;';
-            refreshBtn.appendChild(slash);
-            refreshBtn.title = 'Hujakolektwa kwenye mtandao. Data itasawazishwa mtandao ukirudi.';
-        } else {
-            refreshBtn.innerHTML = '<i class="fas fa-sync-alt" style="color: #2c3e50; font-size: 18px;"></i>';
-            refreshBtn.style.backgroundColor = '';
-            refreshBtn.style.border = '';
-            refreshBtn.title = 'Safisha data';
-            refreshBtn.disabled = false;
-            refreshBtn.style.opacity = '1';
+        updateSyncButtonState();
+    }
+    
+    // ============================================
+    // 3b. RESTORE PENDING OTP VERIFICATION (survive refresh)
+    // ============================================
+    let pendingVerifyRestored = false;
+    try {
+        const savedVerify = localStorage.getItem(PENDING_VERIFY_KEY);
+        if (savedVerify) {
+            const verifyState = JSON.parse(savedVerify);
+            const remainingSeconds = Math.round((verifyState.expiresAt - Date.now()) / 1000);
+            if (verifyState.email && remainingSeconds > 0) {
+                console.log('Restoring pending OTP verification for:', verifyState.email);
+                if (verifyState.context === 'register') {
+                    showRegister();
+                } else {
+                    showLogin();
+                }
+                showVerificationModal(verifyState.email, verifyState.context, remainingSeconds);
+                pendingVerifyRestored = true;
+            } else {
+                clearPendingVerify();
+            }
+        }
+    } catch (error) {
+        console.error('Error restoring pending verification:', error);
+        clearPendingVerify();
+    }
+    
+    // ============================================
+    // 3c. RESTORE PENDING PASSWORD RESET (survive refresh)
+    // ============================================
+    if (!pendingVerifyRestored) {
+        try {
+            const savedReset = localStorage.getItem(PENDING_RESET_KEY);
+            if (savedReset) {
+                const resetState = JSON.parse(savedReset);
+                if (resetState.email) {
+                    console.log('Restoring pending password reset for:', resetState.email);
+                    showLogin();
+                    showResetPasswordModal(resetState.email);
+                    pendingVerifyRestored = true;
+                } else {
+                    clearPendingReset();
+                }
+            }
+        } catch (error) {
+            console.error('Error restoring pending password reset:', error);
+            clearPendingReset();
         }
     }
     
     // ============================================
     // 4. LOAD SAVED USER
     // ============================================
-    const savedUser = localStorage.getItem(USER_KEY);
+    const savedUser = !pendingVerifyRestored ? localStorage.getItem(USER_KEY) : null;
     if (savedUser) {
         try {
             currentUser = JSON.parse(savedUser);
@@ -6373,28 +7467,7 @@ document.addEventListener('DOMContentLoaded', function() {
             forceStopSync();
         }
         
-        const refreshBtn = document.getElementById('refreshBtn');
-        if (refreshBtn) {
-            localStorage.setItem('refresh_original_icon', refreshBtn.innerHTML);
-            
-            refreshBtn.innerHTML = '<i class="fas fa-wifi" style="color: #e74c3c; font-size: 18px; position: relative;"></i>';
-            refreshBtn.style.position = 'relative';
-            refreshBtn.style.backgroundColor = '#f8f9fa';
-            refreshBtn.style.border = '2px solid #e74c3c';
-            
-            const existingSlash = refreshBtn.querySelector('.slash-overlay');
-            if (existingSlash) existingSlash.remove();
-            
-            const slash = document.createElement('span');
-            slash.className = 'slash-overlay';
-            slash.innerHTML = '\\';
-            slash.style.cssText = 'position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(20deg); font-size: 24px; font-weight: bold; color: #e74c3c; pointer-events: none;';
-            refreshBtn.appendChild(slash);
-            
-            refreshBtn.disabled = false;
-            refreshBtn.style.opacity = '1';
-            refreshBtn.title = 'Hujakolektwa kwenye mtandao. Data itasawazishwa mtandao ukirudi.';
-        }
+        updateSyncButtonState();
     });
     
     // ============================================
@@ -6489,7 +7562,7 @@ document.addEventListener('DOMContentLoaded', function() {
         'createBookModal', 'editBookModal', 'settingsModal', 
         'memberDetailsModal', 'reportModal', 'addToBaptismClassModal',
         'addToMarriageClassModal', 'addDepartmentModal', 'addLeaderModal',
-        'departmentLeadersModal', 'resetPasswordModal', 'verifyModal'
+        'departmentLeadersModal'
     ];
     
     modals.forEach(modalId => {
@@ -6507,9 +7580,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         'addToMarriageClassModal': closeAddToMarriageClassModal,
                         'addDepartmentModal': closeAddDepartmentModal,
                         'addLeaderModal': closeAddLeaderModal,
-                        'departmentLeadersModal': closeDepartmentLeadersModal,
-                        'resetPasswordModal': closeResetPasswordModal,
-                        'verifyModal': closeVerifyModal
+                        'departmentLeadersModal': closeDepartmentLeadersModal
                     };
                     if (closeFn[modalId]) closeFn[modalId]();
                 }
@@ -6603,7 +7674,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 'createBookModal', 'editBookModal', 'settingsModal',
                 'memberDetailsModal', 'reportModal', 'addToBaptismClassModal',
                 'addToMarriageClassModal', 'addDepartmentModal', 'addLeaderModal',
-                'departmentLeadersModal', 'resetPasswordModal', 'verifyModal'
+                'departmentLeadersModal'
             ];
             modalIds.forEach(id => {
                 const modal = document.getElementById(id);
@@ -6618,9 +7689,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         'addToMarriageClassModal': closeAddToMarriageClassModal,
                         'addDepartmentModal': closeAddDepartmentModal,
                         'addLeaderModal': closeAddLeaderModal,
-                        'departmentLeadersModal': closeDepartmentLeadersModal,
-                        'resetPasswordModal': closeResetPasswordModal,
-                        'verifyModal': closeVerifyModal
+                        'departmentLeadersModal': closeDepartmentLeadersModal
                     };
                     if (closeFn[id]) closeFn[id]();
                 }
@@ -6858,38 +7927,7 @@ function forceStopSync() {
     if (isSyncing) {
         console.log('Force stopping sync...');
         isSyncing = false;
-        const refreshBtn = document.getElementById('refreshBtn');
-        if (refreshBtn) {
-            // Remove slash if exists
-            const slash = refreshBtn.querySelector('.slash-overlay');
-            if (slash) slash.remove();
-            
-            if (!isOnline) {
-                refreshBtn.innerHTML = '<i class="fas fa-wifi" style="color: #e74c3c; font-size: 18px; position: relative;"></i>';
-                refreshBtn.style.backgroundColor = '#f8f9fa';
-                refreshBtn.style.border = '2px solid #e74c3c';
-                
-                // Add slash overlay again
-                const newSlash = document.createElement('span');
-                newSlash.className = 'slash-overlay';
-                newSlash.innerHTML = '\\';
-                newSlash.style.position = 'absolute';
-                newSlash.style.top = '50%';
-                newSlash.style.left = '50%';
-                newSlash.style.transform = 'translate(-50%, -50%) rotate(20deg)';
-                newSlash.style.fontSize = '24px';
-                newSlash.style.fontWeight = 'bold';
-                newSlash.style.color = '#e74c3c';
-                newSlash.style.pointerEvents = 'none';
-                refreshBtn.appendChild(newSlash);
-            } else {
-                refreshBtn.innerHTML = '<i class="fas fa-sync-alt" style="color: #2c3e50; font-size: 18px;"></i>';
-                refreshBtn.style.backgroundColor = '';
-                refreshBtn.style.border = '';
-            }
-            refreshBtn.disabled = false;
-            refreshBtn.style.opacity = '1';
-        }
+        updateSyncButtonState();
     }
 }
 
@@ -7240,7 +8278,12 @@ function closeEditAllocationGroupsModal() {
 // Dashboard settings queue management
 function addToDashboardSettingsQueue(settingsData) {
     let queue = JSON.parse(localStorage.getItem(PENDING_DASHBOARD_SETTINGS_QUEUE_KEY) || '[]');
-    queue.push(settingsData);
+    const existingIndex = queue.findIndex(q => q.id === settingsData.id);
+    if (existingIndex !== -1) {
+        queue[existingIndex] = settingsData;
+    } else {
+        queue.push(settingsData);
+    }
     localStorage.setItem(PENDING_DASHBOARD_SETTINGS_QUEUE_KEY, JSON.stringify(queue));
 }
 
@@ -7349,56 +8392,136 @@ async function syncChildrenBaptismQueue() {
 }
 
 // syncDepartmentQueue
+let isDepartmentQueueSyncing = false;
 async function syncDepartmentQueue() {
-    const departmentQueue = getDepartmentQueue();
-    
-    for (const dept of departmentQueue) {
-        try {
-            const response = await fetch(API_URL + "?action=saveDepartment", {
-                method: 'POST',
-                body: JSON.stringify({
-                    email: currentUser.email,
-                    departmentName: dept.departmentName,
-                    description: dept.description,
-                    createdDate: dept.createdDate,
-                    isActive: dept.isActive
-                })
-            });
-            const data = await response.json();
-            if (data.status === 'success') {
-                removeFromDepartmentQueue(dept.id);
+    // Prevent overlapping syncs - a second concurrent run could re-send
+    // the same pending department before the first run's removeFromQueue
+    // completes, creating a duplicate record on the server (since no
+    // departmentId was previously sent, every sync attempt created a
+    // brand new department).
+    if (isDepartmentQueueSyncing) {
+        console.log('syncDepartmentQueue already running, skipping overlapping call');
+        return;
+    }
+    isDepartmentQueueSyncing = true;
+    try {
+        const departmentQueue = getDepartmentQueue();
+        
+        for (const dept of departmentQueue) {
+            try {
+                let response;
+                if (dept.action === 'delete') {
+                    response = await fetch(API_URL + "?action=deleteDepartment", {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            email: currentUser.email,
+                            departmentId: dept.id
+                        })
+                    });
+                } else {
+                    response = await fetch(API_URL + "?action=saveDepartment", {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            email: currentUser.email,
+                            departmentId: dept.id,
+                            departmentName: dept.departmentName,
+                            description: dept.description,
+                            createdDate: dept.createdDate,
+                            isActive: dept.isActive
+                        })
+                    });
+                }
+                const data = await response.json();
+                if (data.status === 'success') {
+                    removeFromDepartmentQueue(dept.id);
+
+                    // If the server assigned a permanent ID for a
+                    // newly-created department, replace the temporary
+                    // DEPT_LOCAL_ id in local storage so future edits/
+                    // deletes and leader assignments reference the
+                    // right record instead of creating a new one.
+                    if (dept.action !== 'delete' && data.departmentId && data.departmentId !== dept.id) {
+                        let localDepartments = JSON.parse(localStorage.getItem('DEPARTMENTS_KEY') || '[]');
+                        const idx = localDepartments.findIndex(d => d.id === dept.id);
+                        if (idx !== -1) {
+                            localDepartments[idx].id = data.departmentId;
+                            localStorage.setItem('DEPARTMENTS_KEY', JSON.stringify(localDepartments));
+                        }
+                        // Also update any leaders already pointing at the temp id
+                        let localLeaders = JSON.parse(localStorage.getItem('LEADERS_KEY') || '[]');
+                        let leadersChanged = false;
+                        localLeaders.forEach(l => {
+                            if (l.departmentId === dept.id) {
+                                l.departmentId = data.departmentId;
+                                leadersChanged = true;
+                            }
+                        });
+                        if (leadersChanged) {
+                            localStorage.setItem('LEADERS_KEY', JSON.stringify(localLeaders));
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Sync department error:', error);
             }
-        } catch (error) {
-            console.error('Sync department error:', error);
         }
+    } finally {
+        isDepartmentQueueSyncing = false;
     }
 }
 
 // syncLeaderQueue
+let isLeaderQueueSyncing = false;
 async function syncLeaderQueue() {
-    const leaderQueue = getLeaderQueue();
-    
-    for (const leader of leaderQueue) {
-        try {
-            const response = await fetch(API_URL + "?action=saveLeader", {
-                method: 'POST',
-                body: JSON.stringify({
-                    email: currentUser.email,
-                    memberId: leader.memberId,
-                    departmentId: leader.departmentId,
-                    position: leader.position,
-                    startDate: leader.startDate,
-                    notes: leader.notes,
-                    isActive: leader.isActive
-                })
-            });
-            const data = await response.json();
-            if (data.status === 'success') {
-                removeFromLeaderQueue(leader.id);
+    // Prevent overlapping syncs - without this guard, a call triggered
+    // from "add leader" running at the same time as a periodic/background
+    // syncQueue() could both send the same pending leader before either
+    // removes it from the queue, creating a duplicate leader record.
+    if (isLeaderQueueSyncing) {
+        console.log('syncLeaderQueue already running, skipping overlapping call');
+        return;
+    }
+    isLeaderQueueSyncing = true;
+    try {
+        const leaderQueue = getLeaderQueue();
+        
+        for (const leader of leaderQueue) {
+            try {
+                const response = await fetch(API_URL + "?action=saveLeader", {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        email: currentUser.email,
+                        leaderId: leader.id,
+                        memberId: leader.memberId,
+                        departmentId: leader.departmentId,
+                        position: leader.position,
+                        startDate: leader.startDate,
+                        notes: leader.notes,
+                        isActive: leader.isActive
+                    })
+                });
+                const data = await response.json();
+                if (data.status === 'success') {
+                    removeFromLeaderQueue(leader.id);
+
+                    // Replace the temporary LDR_LOCAL_ id with the
+                    // server's permanent id, if provided, so the leader
+                    // list reflects the synced record correctly.
+                    if (data.leaderId && data.leaderId !== leader.id) {
+                        let localLeaders = JSON.parse(localStorage.getItem('LEADERS_KEY') || '[]');
+                        const idx = localLeaders.findIndex(l => l.id === leader.id);
+                        if (idx !== -1) {
+                            localLeaders[idx].id = data.leaderId;
+                            localStorage.setItem('LEADERS_KEY', JSON.stringify(localLeaders));
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Sync leader error:', error);
             }
-        } catch (error) {
-            console.error('Sync leader error:', error);
         }
+    } finally {
+        isLeaderQueueSyncing = false;
     }
 }
 
@@ -7406,7 +8529,13 @@ async function syncLeaderQueue() {
 // Children blessing queue management
 function addToChildrenBlessingQueue(childData) {
     let queue = JSON.parse(localStorage.getItem(PENDING_CHILDREN_BLESSING_QUEUE_KEY) || '[]');
-    queue.push(childData);
+    // Avoid pushing a duplicate entry for the same child
+    const existingIndex = queue.findIndex(q => q.childId === childData.childId);
+    if (existingIndex !== -1) {
+        queue[existingIndex] = childData;
+    } else {
+        queue.push(childData);
+    }
     localStorage.setItem(PENDING_CHILDREN_BLESSING_QUEUE_KEY, JSON.stringify(queue));
 }
 
@@ -8034,11 +9163,17 @@ function addToQueue(item) {
     }
     
     // Also check by content (to avoid duplicate transactions with different _id)
+    // NOTE: also compares memberId and description, since two different
+    // members giving the same amount, category, date and time were
+    // previously being treated as the same transaction and silently
+    // dropped.
     const duplicateByContent = pendingQueue.some(q => {
         // For transactions, check if same book, type, amount, date, time
         if (q.bookId && item.bookId && q.type === item.type && 
             q.amount === item.amount && q.date === item.date && 
-            q.time === item.time && q.category === item.category) {
+            q.time === item.time && q.category === item.category &&
+            (q.memberId || '') === (item.memberId || '') &&
+            (q.description || '') === (item.description || '')) {
             // If same transaction, return true
             return true;
         }
@@ -8250,6 +9385,11 @@ async function syncQueue() {
                     const data = await response.json();
                     if (data.status === 'success') {
                         const id = member.id || member.memberId;
+                        // The server may hand back the permanent id under
+                        // a different key than the one we sent - check
+                        // all the shapes the backend might use.
+                        const serverAssignedId = data.memberId || data.id || (data.member && data.member.id) || id;
+                        reconcileLocalMemberId(id, serverAssignedId);
                         removeFromMemberQueue(id);
                         memberSyncCount++;
                         totalSynced++;
@@ -8487,32 +9627,47 @@ async function syncQueue() {
   
 
 // ============================================
-// STEP 8: Clean up - REMOVE ALL LOCAL TRANSACTIONS
+// STEP 8: Clean up - REMOVE LOCAL TRANSACTIONS ONLY IF FULLY SYNCED
 // ============================================
+// SAFETY FIX: previously this ALWAYS wiped every local TRANSACTIONS_*
+// cache after a sync attempt, even when some items failed to sync
+// (syncErrors.length > 0) or other queues still had pending items.
+// That silently deleted transactions that were never saved on the
+// server. Now we only wipe the local cache when everything synced
+// with zero errors and no queue has leftover items.
 if (isOnline && currentUser) {
     try {
-        console.log('Cleaning up local transactions after sync...');
-        
-        // ============================================
-        // CLEAR ALL TRANSACTION KEYS FROM localStorage
-        // ============================================
-        const keysToRemove = [];
-        for (let i = 0; i < localStorage.length; i++) {
-            const key = localStorage.key(i);
-            if (key && key.startsWith('TRANSACTIONS_')) {
-                keysToRemove.push(key);
+        const stillPending = pendingQueue.length > 0 ||
+            getMemberQueue().length > 0 ||
+            getDashboardSettingsQueue().length > 0 ||
+            getChildrenBlessingQueue().length > 0 ||
+            getChildrenBaptismQueue().length > 0 ||
+            getDepartmentQueue().length > 0 ||
+            getLeaderQueue().length > 0;
+
+        if (syncErrors.length === 0 && !stillPending) {
+            console.log('All queues fully synced with no errors - safe to clear local transaction cache...');
+
+            const keysToRemove = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && key.startsWith('TRANSACTIONS_')) {
+                    keysToRemove.push(key);
+                }
             }
+            keysToRemove.forEach(key => {
+                localStorage.removeItem(key);
+                console.log(`Removed: ${key}`);
+            });
+
+            // Clear offlineTransactions object
+            offlineTransactions = {};
+
+            console.log('All local transactions cleared (fully synced)');
+        } else {
+            console.warn(`Skipping local transaction cleanup: ${syncErrors.length} error(s), stillPending=${stillPending}. Unsynced data is preserved locally.`);
         }
-        keysToRemove.forEach(key => {
-            localStorage.removeItem(key);
-            console.log(`Removed: ${key}`);
-        });
-        
-        // Clear offlineTransactions object
-        offlineTransactions = {};
-        
-        console.log('All local transactions cleared');
-        
+
         // ============================================
         // RELOAD FRESH DATA FROM SERVER
         // ============================================
@@ -8955,10 +10110,14 @@ function loadLocalMembers() {
 
 
 
-function showVerificationModal(email, context = 'login') {
+function showVerificationModal(email, context = 'login', remainingSeconds = 300) {
     console.log('Showing verification modal for:', email, 'Context:', context);
     verifyEmailAddress = email;
     verifyContext = context;
+    
+    // Persist so a refresh (e.g. switching apps to read the OTP email)
+    // doesn't lose this state - see restorePendingVerification().
+    savePendingVerify(email, context, remainingSeconds);
     
     // Close any open modals
     closeResetPasswordModal();
@@ -9008,8 +10167,8 @@ function showVerificationModal(email, context = 'login') {
         }, 100);
     }
     
-    // Start timer (5 minutes)
-    startVerifyTimer(300);
+    // Start timer
+    startVerifyTimer(remainingSeconds);
     
     // Enable confirm button
     const confirmBtn = document.getElementById('verifyConfirmBtn');
@@ -9023,6 +10182,7 @@ function showVerificationModal(email, context = 'login') {
 function showResetPasswordModal(email) {
     console.log('Showing reset password modal for:', email);
     resetEmailAddress = email;
+    savePendingReset(email);
     
     // Close any open modals
     closeVerifyModal();
@@ -9071,8 +10231,17 @@ function showLogin() {
     const registerBtn = document.querySelector('#registerScreen .btn-success');
     if (registerBtn) {
         registerBtn.innerHTML = '<i class="fas fa-user-plus"></i> Jisajili';
-        registerBtn.disabled = false;
+        registerBtn.disabled = true;
         registerBtn.style.opacity = '1';
+    }
+    
+    // Reset terms checkbox and password strength meter
+    const agreeCheckbox = document.getElementById('agreeTermsCheckbox');
+    if (agreeCheckbox) agreeCheckbox.checked = false;
+    const strengthWrap = document.getElementById('passwordStrength');
+    if (strengthWrap) {
+        strengthWrap.style.display = 'none';
+        strengthWrap.className = 'password-strength';
     }
     
     // Clear forms
@@ -9558,6 +10727,37 @@ function showDeveloperSettings() {
                 </button>
             </div>
             <div class="settings-content" style="max-width: 800px; margin: 0 auto;">
+                <!-- Language & Theme -->
+                <div class="settings-section" style="background: #f8f9fa; border-radius: 10px; padding: 25px; margin-bottom: 25px; border: 1px solid #e0e0e0;">
+                    <h3 style="color: #2c3e50; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #ddd; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-sliders-h" style="color: #f39c12;"></i>
+                        <span data-i18n="settings_lang_theme_title">Lugha na Mandhari</span>
+                    </h3>
+                    <div class="settings-lang-theme-row">
+                        <div class="settings-lang-theme-item">
+                            <label data-i18n="settings_language_label">Lugha ya Mfumo</label>
+                            <div class="lang-switch">
+                                <button type="button" class="lang-btn" data-lang="sw" onclick="setAppLanguage('sw')">SW</button>
+                                <button type="button" class="lang-btn" data-lang="en" onclick="setAppLanguage('en')">EN</button>
+                            </div>
+                        </div>
+                        <div class="settings-lang-theme-item">
+                            <label data-i18n="settings_theme_label">Mandhari ya Mfumo</label>
+                            <button type="button" class="theme-dropdown-btn" id="themeDropdownBtn" onclick="toggleThemeDropdown()">
+                                <i class="fas fa-palette"></i>
+                                <span data-i18n="settings_theme_btn">Mandhari</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="theme-swatch-panel theme-switch" id="themeSwatchPanel">
+                                <button type="button" class="theme-swatch" data-theme="royal" onclick="setAppTheme('royal')" title="Bluu ya Kifalme"></button>
+                                <button type="button" class="theme-swatch" data-theme="emerald" onclick="setAppTheme('emerald')" title="Kijani cha Zumaridi"></button>
+                                <button type="button" class="theme-swatch" data-theme="purple" onclick="setAppTheme('purple')" title="Zambarau ya Kifahari"></button>
+                                <button type="button" class="theme-swatch" data-theme="sunset" onclick="setAppTheme('sunset')" title="Machweo ya Jua"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Developer Info -->
                 <div class="settings-section" style="background: #f8f9fa; border-radius: 10px; padding: 25px; margin-bottom: 25px; border: 1px solid #e0e0e0;">
                     <h3 style="color: #2c3e50; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #ddd; display: flex; align-items: center; gap: 10px;">
@@ -9672,6 +10872,15 @@ function showDeveloperSettings() {
     div.innerHTML = settingsHtml;
     document.body.appendChild(div.firstElementChild);
     document.body.style.overflow = 'hidden';
+    
+    // Translate the freshly-inserted language/theme labels and mark the
+    // currently active language/theme buttons (this modal is rebuilt
+    // from scratch each time, so it isn't covered by the page-load call).
+    applyTranslations(currentAppLanguage);
+    document.querySelectorAll('.theme-swatch').forEach(btn => {
+        const savedTheme = document.documentElement.getAttribute('data-theme') || 'royal';
+        btn.classList.toggle('active', btn.getAttribute('data-theme') === savedTheme);
+    });
     
     // Update system stats
     updateSystemStats();
@@ -10510,6 +11719,12 @@ function showSection(sectionId) {
         return;
     }
     
+    const agreeTerms = document.getElementById('agreeTermsCheckbox');
+    if (!agreeTerms || !agreeTerms.checked) {
+        showError('Tafadhali kubali Vigezo na Masharti kabla ya kujisajili');
+        return;
+    }
+    
     const registerBtn = document.querySelector('#registerScreen .btn-success');
     const originalText = registerBtn ? registerBtn.innerHTML : 'Jisajili';
     
@@ -10552,6 +11767,14 @@ function showSection(sectionId) {
             document.getElementById('registerEmail').value = '';
             document.getElementById('registerPassword').value = '';
             document.getElementById('confirmPassword').value = '';
+            const agreeCheckboxAfterSuccess = document.getElementById('agreeTermsCheckbox');
+            if (agreeCheckboxAfterSuccess) agreeCheckboxAfterSuccess.checked = false;
+            const strengthWrapAfterSuccess = document.getElementById('passwordStrength');
+            if (strengthWrapAfterSuccess) {
+                strengthWrapAfterSuccess.style.display = 'none';
+                strengthWrapAfterSuccess.className = 'password-strength';
+            }
+            if (registerBtn) registerBtn.disabled = true;
             
         } else {
             // Reset button on error
@@ -12746,6 +13969,18 @@ async function saveTransaction() {
         return; 
     }
     
+    // Guard against double-click / double-submit which could create
+    // two near-identical transactions before the duplicate check below
+    // even runs.
+    const saveBtn = document.getElementById('saveTransactionBtn');
+    if (saveBtn && saveBtn.disabled) {
+        return;
+    }
+    if (saveBtn) {
+        saveBtn.disabled = true;
+        setTimeout(() => { saveBtn.disabled = false; }, 1500);
+    }
+    
     const type = document.getElementById('transType').value;
     const category = document.getElementById('transCategory').value.trim();
     const amount = parseFloat(document.getElementById('transAmount').value);
@@ -12830,7 +14065,9 @@ async function saveTransaction() {
                t.amount === amount && 
                t.category === category && 
                t.type === type &&
-               t.bookId === currentBook.id;
+               t.bookId === currentBook.id &&
+               (t.memberId || '') === (memberId || '') &&
+               (t.description || '') === (description || '');
     });
     
     if (duplicateExists) {
@@ -12936,7 +14173,9 @@ async function saveTransaction() {
                    q.amount === amount && 
                    q.date === date && 
                    q.time === time && 
-                   q.category === category;
+                   q.category === category &&
+                   (q.memberId || '') === (memberId || '') &&
+                   (q.description || '') === (description || '');
         });
         
         if (!duplicateInQueue) {
@@ -14739,41 +15978,101 @@ function groupTransactionsByMember(transactions, bookType) {
 
 
 // New function to sync member queue
+let isMemberQueueSyncing = false;
 async function syncMemberQueue() {
-    const memberQueue = getMemberQueue();
-    for (const member of memberQueue) {
-        try {
-            const syncData = {
-                email: currentUser.email,
-                memberId: member.id,
-                memberName: member.name,
-                gender: member.gender,
-                maritalStatus: member.maritalStatus,
-                baptismStatus: member.baptismStatus,
-                phone: member.phone,
-                memberEmail: member.email,
-                address: member.address,
-                birthDate: member.birthDate,
-                joinDate: member.joinDate,
-                notes: member.notes,
-                isActive: member.isActive || "Ndiyo",
-                marriageCertificateNo: member.marriageCertificateNo || "",
-                hasChildren: member.hasChildren || (member.children && member.children.length > 0 ? 'Ndiyo' : 'Hapana'),
-                children: member.children || [],
-                weddingType: member.weddingType || ""
-            };
-            
-            const response = await fetch(API_URL + "?action=saveMember", {
-                method: 'POST',
-                body: JSON.stringify(syncData)
-            });
-            const data = await response.json();
-            if (data.status === 'success') {
-                removeFromMemberQueue(member.id);
+    // Prevent overlapping syncs: if this is already running (e.g. triggered
+    // by both a manual save and a periodic/background syncQueue() call at
+    // the same time), a second run could re-send members still in the
+    // queue before the first run removes them, creating duplicates on
+    // the server.
+    if (isMemberQueueSyncing) {
+        console.log('syncMemberQueue already running, skipping overlapping call');
+        return;
+    }
+    isMemberQueueSyncing = true;
+    try {
+        const memberQueue = getMemberQueue();
+        for (const member of memberQueue) {
+            try {
+                const syncData = {
+                    email: currentUser.email,
+                    memberId: member.id,
+                    memberName: member.name,
+                    gender: member.gender,
+                    maritalStatus: member.maritalStatus,
+                    baptismStatus: member.baptismStatus,
+                    phone: member.phone,
+                    memberEmail: member.email,
+                    address: member.address,
+                    birthDate: member.birthDate,
+                    joinDate: member.joinDate,
+                    notes: member.notes,
+                    isActive: member.isActive || "Ndiyo",
+                    marriageCertificateNo: member.marriageCertificateNo || "",
+                    hasChildren: member.hasChildren || (member.children && member.children.length > 0 ? 'Ndiyo' : 'Hapana'),
+                    children: member.children || [],
+                    weddingType: member.weddingType || ""
+                };
+                
+                const response = await fetch(API_URL + "?action=saveMember", {
+                    method: 'POST',
+                    body: JSON.stringify(syncData)
+                });
+                const data = await response.json();
+                if (data.status === 'success') {
+                    removeFromMemberQueue(member.id);
+
+                    // ============================================
+                    // FIX: replace the temporary local id with the
+                    // server's permanent id in MEMBERS_KEY.
+                    // ============================================
+                    // Previously, after a successful sync, the local
+                    // MEMBERS_KEY record still had the temporary
+                    // "MEM_LOCAL_..." id. Since that id never matches
+                    // any id on the server, mergeMembers() treated it
+                    // as a brand new member and kept both the old
+                    // local copy AND the new server copy - showing a
+                    // duplicate on the frontend even though the server
+                    // itself only ever had one record.
+                    const serverMemberId = data.memberId || (data.member && data.member.id);
+                    if (serverMemberId && serverMemberId !== member.id) {
+                        let localMembers = JSON.parse(localStorage.getItem(MEMBERS_KEY) || '[]');
+
+                        // Remove any existing record already using the
+                        // server id (shouldn't normally happen, but
+                        // guards against a stale duplicate).
+                        localMembers = localMembers.filter(m => m.id !== serverMemberId && m.memberId !== serverMemberId);
+
+                        const idx = localMembers.findIndex(m => m.id === member.id);
+                        if (idx !== -1) {
+                            localMembers[idx].id = serverMemberId;
+                            localMembers[idx].memberId = serverMemberId;
+                            localMembers[idx].isLocal = false;
+                        }
+                        localStorage.setItem(MEMBERS_KEY, JSON.stringify(localMembers));
+
+                        // Also fix up any leader records pointing at the
+                        // temporary member id, so they stay linked to
+                        // the right person.
+                        let localLeaders = JSON.parse(localStorage.getItem('LEADERS_KEY') || '[]');
+                        let leadersChanged = false;
+                        localLeaders.forEach(l => {
+                            if (l.memberId === member.id) {
+                                l.memberId = serverMemberId;
+                                leadersChanged = true;
+                            }
+                        });
+                        if (leadersChanged) {
+                            localStorage.setItem('LEADERS_KEY', JSON.stringify(localLeaders));
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Sync member error:', error);
             }
-        } catch (error) {
-            console.error('Sync member error:', error);
         }
+    } finally {
+        isMemberQueueSyncing = false;
     }
 }
 
@@ -14838,7 +16137,12 @@ async function syncMemberQueue() {
 // Department queue management
 function addToDepartmentQueue(departmentData) {
     let queue = JSON.parse(localStorage.getItem('PENDING_DEPARTMENTS_QUEUE_KEY') || '[]');
-    queue.push(departmentData);
+    const existingIndex = queue.findIndex(q => q.id === departmentData.id);
+    if (existingIndex !== -1) {
+        queue[existingIndex] = departmentData;
+    } else {
+        queue.push(departmentData);
+    }
     localStorage.setItem('PENDING_DEPARTMENTS_QUEUE_KEY', JSON.stringify(queue));
 }
 
@@ -14855,7 +16159,12 @@ function removeFromDepartmentQueue(departmentId) {
 // Leader queue management
 function addToLeaderQueue(leaderData) {
     let queue = JSON.parse(localStorage.getItem('PENDING_LEADERS_QUEUE_KEY') || '[]');
-    queue.push(leaderData);
+    const existingIndex = queue.findIndex(q => q.id === leaderData.id);
+    if (existingIndex !== -1) {
+        queue[existingIndex] = leaderData;
+    } else {
+        queue.push(leaderData);
+    }
     localStorage.setItem('PENDING_LEADERS_QUEUE_KEY', JSON.stringify(queue));
 }
 
@@ -15383,6 +16692,31 @@ async function saveMember() {
     }
     
     const saveBtn = document.getElementById('saveMemberBtn');
+
+    // Guard against double-click / double-submit while a save is already
+    // in progress, which was a source of duplicate members being created.
+    if (saveBtn && saveBtn.disabled) {
+        return;
+    }
+
+    // For NEW members only: check if a member with the same name and
+    // phone (or email) already exists locally, to catch accidental
+    // double registration before it ever reaches the server.
+    if (!editMemberId) {
+        const existingMembers = JSON.parse(localStorage.getItem(MEMBERS_KEY) || '[]');
+        const possibleDuplicate = existingMembers.find(m => {
+            const sameName = (m.name || m.memberName || '').trim().toLowerCase() === memberName.toLowerCase();
+            if (!sameName) return false;
+            const samePhone = phone && (m.phone || '').trim() === phone;
+            const sameEmail = memberEmail && (m.memberEmail || m.email || '').trim().toLowerCase() === memberEmail.toLowerCase();
+            return samePhone || sameEmail || (!phone && !memberEmail);
+        });
+        if (possibleDuplicate) {
+            showError(`Muumini "${memberName}" tayari yupo kwenye orodha. Tafadhali angalia kabla ya kusajili tena.`);
+            return;
+        }
+    }
+    
     const originalText = saveBtn.innerHTML;
     saveBtn.innerHTML = '<div class="loading-spinner"></div> Inahifadhi...';
     saveBtn.disabled = true;
@@ -15391,7 +16725,7 @@ async function saveMember() {
     
     const memberData = {
         id: memberId,
-        email: currentUser.email,
+        email: memberEmail,
         memberId: editMemberId || null,
         memberName: memberName,
         name: memberName,
@@ -15400,7 +16734,6 @@ async function saveMember() {
         baptismStatus: baptismStatus,
         phone: phone,
         memberEmail: memberEmail,
-        email: memberEmail,
         address: address,
         birthDate: birthDate,
         joinDate: joinDate || new Date().toISOString().split('T')[0],
@@ -15473,9 +16806,14 @@ async function saveMember() {
             removeFromMemberQueue(memberId);
             
             // Update local storage with server ID
-            if (data.memberId && !editMemberId) {
-                memberData.id = data.memberId;
-                memberData.memberId = data.memberId;
+            // NOTE: some backend responses use `memberId`, others may
+            // return the id under a different key (e.g. `id`). Check
+            // both so the temporary MEM_LOCAL_ id always gets replaced.
+            const serverAssignedId = data.memberId || data.id || (data.member && data.member.id);
+            if (serverAssignedId && !editMemberId) {
+                memberData.id = serverAssignedId;
+                memberData.memberId = serverAssignedId;
+                memberData.isLocal = false;
                 const index = localMembers.findIndex(m => m.id === memberId);
                 if (index !== -1) {
                     localMembers[index] = memberData;
@@ -15489,7 +16827,21 @@ async function saveMember() {
                 showSuccess(`Muumini ${memberName} amesajiliwa kwa mafanikio`);
             }
             resetMemberForm();
-            loadMembers();
+
+            // IMPORTANT: show the locally-updated list immediately rather
+            // than re-fetching from the server right away. The Sheets/
+            // Apps Script backend can have a brief read-after-write
+            // delay, so calling loadMembers() here could fetch a server
+            // list that doesn't yet include this member (or reflects it
+            // under a slightly different shape), which combined with the
+            // merge fallback could show the same person twice. Local
+            // storage already has the single, correct, server-id record.
+            const freshLocalMembers = JSON.parse(localStorage.getItem(MEMBERS_KEY) || '[]');
+            displayMembers(freshLocalMembers);
+            const memberCountBadge = document.getElementById('memberCountBadge');
+            if (memberCountBadge) {
+                memberCountBadge.textContent = `${freshLocalMembers.length} Waumini`;
+            }
         } else {
             showError(data.message);
             saveBtn.innerHTML = originalText;
@@ -15725,6 +17077,34 @@ async function deleteMember(memberId) {
     });
 }
 
+
+// After a queued member is successfully synced to the server, the
+// server assigns a real, permanent id that's different from the
+// temporary "MEM_LOCAL_..." id the record was created with locally.
+// If we don't update the record's id in local storage to match, the
+// same person ends up stored under TWO ids forever (the old local one
+// and the new server one) - and on every future load, the local copy
+// and the server copy get treated as two different people, showing up
+// as a duplicate in the members table. This reconciles them into one
+// record so that never happens.
+function reconcileLocalMemberId(oldLocalId, serverAssignedId) {
+    if (!oldLocalId || !serverAssignedId || oldLocalId === serverAssignedId) return;
+    try {
+        let localMembers = JSON.parse(localStorage.getItem(MEMBERS_KEY) || '[]');
+        const index = localMembers.findIndex(m => m.id === oldLocalId || m.memberId === oldLocalId);
+        if (index !== -1) {
+            localMembers[index] = {
+                ...localMembers[index],
+                id: serverAssignedId,
+                memberId: serverAssignedId,
+                isLocal: false
+            };
+            localStorage.setItem(MEMBERS_KEY, JSON.stringify(localMembers));
+        }
+    } catch (error) {
+        console.error('Failed to reconcile local member id after sync:', error);
+    }
+}
 
 function addToMemberQueue(memberData) {
     let queue = JSON.parse(localStorage.getItem(PENDING_MEMBERS_QUEUE_KEY) || '[]');
@@ -16044,6 +17424,47 @@ if (member.children && member.children.length > 0) {
     }
 }
 
+// Normalize helper for name/phone/email comparison
+const normalizeMemberValue = (v) => (v || '').toString().trim().toLowerCase();
+
+// Builds the best available "identity key" for a member so we can tell
+// whether two records represent the same real person, even when they
+// arrived with two different ids (e.g. a local temporary "MEM_LOCAL_..."
+// id vs a server-assigned id).
+//
+// Preference order: name+phone, then name+email. Crucially, when a
+// member has BOTH phone and email blank (very common when someone is
+// registered with just the required basics), we fall back to a
+// composite of the other stored fields instead of giving up - otherwise
+// that member would never be recognised as a duplicate and would show
+// up twice in the members table even though the server only holds one
+// record.
+function getMemberFallbackKey(member) {
+    if (!member) return null;
+    const name = normalizeMemberValue(member.name || member.memberName);
+    if (!name) return null;
+
+    const phone = normalizeMemberValue(member.phone);
+    if (phone) return `${name}|p|${phone}`;
+
+    const email = normalizeMemberValue(member.memberEmail || member.email);
+    if (email) return `${name}|e|${email}`;
+
+    // Last-resort composite key when there's no phone or email to key on.
+    // Dates are run through formatDateToYMD first because the server can
+    // return dates in a different format/timezone shape than what was
+    // typed locally (e.g. a full ISO timestamp vs a plain YYYY-MM-DD),
+    // and a raw string mismatch there would otherwise make two records
+    // for the same person look "different" and defeat the whole point
+    // of this fallback key.
+    const gender = normalizeMemberValue(member.gender);
+    const maritalStatus = normalizeMemberValue(member.maritalStatus);
+    const baptismStatus = normalizeMemberValue(member.baptismStatus);
+    const birthDate = normalizeMemberValue(formatDateToYMD(member.birthDate) || member.birthDate);
+    const joinDate = normalizeMemberValue(formatDateToYMD(member.joinDate) || member.joinDate);
+    return `${name}|c|${gender}|${maritalStatus}|${baptismStatus}|${birthDate}|${joinDate}`;
+}
+
 // Merge members - keep server members, add local members that don't exist on server
 function mergeMembers(localMembers, serverMembers) {
     if (!serverMembers || serverMembers.length === 0) {
@@ -16060,6 +17481,18 @@ function mergeMembers(localMembers, serverMembers) {
         if (m.id) serverMemberIds.add(m.id);
         if (m.memberId) serverMemberIds.add(m.memberId);
     });
+
+    // Build a lookup of server members by identity key, as a fallback
+    // match. This catches cases where a local member still has its old
+    // temporary "MEM_LOCAL_..." id (e.g. left over from before a fix, or
+    // a queue item that hasn't finished syncing yet) even though the
+    // server already has that exact person under a different, permanent
+    // id - which would otherwise show up as a duplicate on the frontend.
+    const serverByKey = new Map();
+    serverMembers.forEach(m => {
+        const key = getMemberFallbackKey(m);
+        if (key) serverByKey.set(key, m);
+    });
     
     // Start with server members
     const merged = [...serverMembers];
@@ -16067,7 +17500,19 @@ function mergeMembers(localMembers, serverMembers) {
     // Add local members that don't exist on server
     localMembers.forEach(localMember => {
         const id = localMember.id || localMember.memberId;
-        if (id && !serverMemberIds.has(id)) {
+        if (id && serverMemberIds.has(id)) {
+            return; // already represented by a server record
+        }
+
+        // Fallback: same identity key means this is the same person
+        // already saved on the server under a different id - skip it to
+        // avoid a frontend-only duplicate.
+        const key = getMemberFallbackKey(localMember);
+        if (key && serverByKey.has(key)) {
+            return;
+        }
+
+        if (id) {
             merged.push(localMember);
         }
     });
@@ -16193,6 +17638,38 @@ function updateTransactionTypeVisibility() {
         function displayMembers(members) {
     const membersListBody = document.getElementById('membersListBody');
     const memberCountBadge = document.getElementById('memberCountBadge');
+
+    // ============================================
+    // FINAL SAFETY NET: de-duplicate before rendering
+    // ============================================
+    // No matter where `members` came from (server merge, stale
+    // localStorage, a queue item mid-sync, etc.), never let the same
+    // person appear twice in the visible list. First pass dedupes by
+    // id/memberId; second pass dedupes any remaining entries by
+    // normalized name+phone or name+email (covers old MEM_LOCAL_
+    // records that slipped through with a different id than the
+    // matching server record).
+    const seenIds = new Set();
+    const seenKey = new Set();
+    const dedupedMembers = [];
+    (members || []).forEach(member => {
+        const id = member.id || member.memberId;
+        if (id) {
+            if (seenIds.has(id)) return;
+            seenIds.add(id);
+        }
+        // Uses the same identity-key logic as mergeMembers, including the
+        // composite fallback for members with no phone or email, so a
+        // member never renders twice even when their id differs between
+        // a local record and a server record.
+        const key = getMemberFallbackKey(member);
+        if (key) {
+            if (seenKey.has(key)) return;
+            seenKey.add(key);
+        }
+        dedupedMembers.push(member);
+    });
+    members = dedupedMembers;
     
     if (memberCountBadge) {
         memberCountBadge.textContent = `${members.length} Waumini`;
@@ -20735,6 +22212,24 @@ async function confirmAddDepartment() {
     }
     
     const saveBtn = event.target;
+
+    // Guard against double-click / double-submit while a save is
+    // already in progress, which was a source of duplicate departments.
+    if (saveBtn.disabled) {
+        return;
+    }
+
+    // Check for an existing department with the same name before
+    // creating a new one.
+    const existingDepartments = JSON.parse(localStorage.getItem('DEPARTMENTS_KEY') || '[]');
+    const duplicateDept = existingDepartments.find(d =>
+        (d.departmentName || d.name || '').trim().toLowerCase() === name.toLowerCase()
+    );
+    if (duplicateDept) {
+        showError(`Idara "${name}" tayari ipo.`);
+        return;
+    }
+
     const originalText = saveBtn.innerHTML;
     saveBtn.innerHTML = '<div class="loading-spinner"></div> Inahifadhi...';
     saveBtn.disabled = true;
@@ -20760,17 +22255,20 @@ async function confirmAddDepartment() {
     // Add to sync queue
     addToDepartmentQueue(departmentData);
     
-    // Update display
-    loadDepartments();
-    loadDepartmentsForSelect();
-    
     showSuccess('Idara imeongezwa kikamilifu');
     closeAddDepartmentModal();
     
-    // Try to sync if online
+    // Sync to the server BEFORE refreshing the display. loadDepartments()
+    // does its own GET from the server and overwrites DEPARTMENTS_KEY, so
+    // syncing first avoids a race where a stale GET response wipes out
+    // the newly-added department from local storage.
     if (isOnline) {
         await syncDepartmentQueue();
     }
+    
+    // Update display
+    loadDepartments();
+    loadDepartmentsForSelect();
     
     saveBtn.innerHTML = originalText;
     saveBtn.disabled = false;
@@ -20801,17 +22299,18 @@ async function deleteDepartment(departmentId) {
             // Add deletion to queue
             addToDepartmentQueue({ id: departmentId, action: 'delete' });
             
+            showSuccess('Idara imefutwa');
+            
+            // Sync before refreshing the display (see note in
+            // confirmAddDepartment about the stale-GET race condition).
+            if (isOnline) {
+                await syncDepartmentQueue();
+            }
+            
             // Update display
             loadDepartments();
             loadActiveLeaders();
             loadAllLeadersHistory();
-            
-            showSuccess('Idara imefutwa');
-            
-            // Sync if online
-            if (isOnline) {
-                await syncDepartmentQueue();
-            }
         }
     });
 }
@@ -21459,6 +22958,9 @@ async function confirmAddLeaderInDepartment(departmentId, departmentName) {
     }
     
     const saveBtn = event.target;
+    if (saveBtn.disabled) {
+        return;
+    }
     const originalText = saveBtn.innerHTML;
     saveBtn.innerHTML = '<div class="loading-spinner"></div> Inahifadhi...';
     saveBtn.disabled = true;
@@ -21476,12 +22978,11 @@ async function confirmAddLeaderInDepartment(departmentId, departmentName) {
     
     const leaderData = {
         id: leaderId,
-        email: currentUser.email,
+        email: member ? member.email : '',
         memberId: memberId,
         memberName: member ? member.name : '',
         gender: member ? member.gender : '',
         phone: member ? member.phone : '',
-        email: member ? member.email : '',
         departmentId: departmentId,
         departmentName: deptName,
         position: position,
@@ -21502,18 +23003,25 @@ async function confirmAddLeaderInDepartment(departmentId, departmentName) {
     // Add to sync queue
     addToLeaderQueue(leaderData);
     
-    // Update display
     closeAddLeaderInDeptModal();
-    showDepartmentLeaders(departmentId, deptName);
-    loadActiveLeaders();
-    loadAllLeadersHistory();
-    
     showSuccess('Kiongozi ameongezwa kikamilifu');
     
-    // Try to sync if online
+    // IMPORTANT: sync to the server BEFORE refreshing the leaders view.
+    // Previously showDepartmentLeaders() (which does its own GET of
+    // leaders from the server and overwrites LEADERS_KEY) was called
+    // before/without awaiting syncLeaderQueue(). If that GET returned
+    // before the new leader had finished syncing, it would overwrite
+    // localStorage with server data that didn't yet include the new
+    // leader - making it disappear from the list until a manual refresh.
     if (isOnline) {
         await syncLeaderQueue();
     }
+    
+    // Now refresh the view - local data already has the new leader,
+    // and if sync succeeded, the server does too.
+    showDepartmentLeaders(departmentId, deptName);
+    loadActiveLeaders();
+    loadAllLeadersHistory();
     
     saveBtn.innerHTML = originalText;
     saveBtn.disabled = false;
@@ -21523,7 +23031,13 @@ async function confirmAddLeaderInDepartment(departmentId, departmentName) {
 // Children baptism queue management
 function addToChildrenBaptismQueue(childData) {
     let queue = JSON.parse(localStorage.getItem(PENDING_CHILDREN_BAPTISM_QUEUE_KEY) || '[]');
-    queue.push(childData);
+    // Avoid pushing a duplicate entry for the same child
+    const existingIndex = queue.findIndex(q => q.childId === childData.childId);
+    if (existingIndex !== -1) {
+        queue[existingIndex] = childData;
+    } else {
+        queue.push(childData);
+    }
     localStorage.setItem(PENDING_CHILDREN_BAPTISM_QUEUE_KEY, JSON.stringify(queue));
 }
 
@@ -22231,6 +23745,7 @@ function closeResetPasswordModal() {
     // Remove body class
     document.body.classList.remove('reset-modal-open');
     // DON'T clear resetEmailAddress here - keep it for retry
+    clearPendingReset();
     console.log('Reset password modal closed');
 }
 
@@ -22494,6 +24009,7 @@ function closeVerifyModal() {
     stopVerifyTimer();
     verifyEmailAddress = null;
     verifyContext = null;
+    clearPendingVerify();
 }
 
 // Clear OTP inputs
@@ -22641,6 +24157,7 @@ async function resendVerificationCode() {
             // Reset timer
             stopVerifyTimer();
             startVerifyTimer(300);
+            savePendingVerify(verifyEmailAddress, verifyContext, 300);
             
             // Clear OTP inputs
             clearOtpInputs();
@@ -22900,22 +24417,6 @@ function updateSyncButtonState() {
         refreshBtn.title = 'Inasawazisha data...';
         refreshBtn.style.border = '2px solid #3498db';
         refreshBtn.style.backgroundColor = '#e8f4fc';
-        return;
-    }
-    
-    if (!isOnline) {
-        // State 2: Offline
-        refreshBtn.innerHTML = '<i class="fas fa-wifi" style="color: #e74c3c; font-size: 18px;"></i>';
-        refreshBtn.style.backgroundColor = '#f8f9fa';
-        refreshBtn.style.border = '2px solid #e74c3c';
-        refreshBtn.title = 'Hujakolektwa kwenye mtandao. Data itasawazishwa mtandao ukirudi.';
-        
-        // Add slash overlay
-        const slash = document.createElement('span');
-        slash.className = 'slash-overlay';
-        slash.innerHTML = '\\';
-        slash.style.cssText = 'position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(20deg); font-size: 24px; font-weight: bold; color: #e74c3c; pointer-events: none;';
-        refreshBtn.appendChild(slash);
         return;
     }
     
