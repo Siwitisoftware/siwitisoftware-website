@@ -15,7 +15,7 @@
     "window-controls-overlay"
   ],
 
-  "orientation": "portrait-primary",
+  "orientation": "any",
 
   "background_color": "#ffffff",
   "theme_color": "#0B57D0",
