@@ -1,4 +1,4 @@
-const CACHE='siwiti-enterprise-v2';
+const CACHE='siwiti-enterprise-v3';
 const OFFLINE='/offline.html';
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(['/',OFFLINE]))));
 self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));
