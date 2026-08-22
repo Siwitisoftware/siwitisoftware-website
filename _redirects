@@ -8,9 +8,20 @@
 
 
 # =========================================================
+# SMART TRADE PRO
+# =========================================================
+
+/smart-trade          /smart-trade/index.html      200
+/smart-trade/         /smart-trade/index.html      200
+/smart-trade/*         /smart-trade/index.html      200
+
+
+# =========================================================
 # APK DOWNLOADS
 # =========================================================
 
 /download/results-system https://github.com/Siwitisoftware/results-system/releases/latest/download/results-system.apk 302
 
 /download/financial-system https://github.com/Siwitisoftware/financial-sysrem/releases/latest/download/financial-system.apk 302
+
+/download/smart-trade-pro https://github.com/Siwitisoftware/smart-trade-pro/releases/latest/download/smart-trade-pro.apk 302
